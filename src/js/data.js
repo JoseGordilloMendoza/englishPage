@@ -74,7 +74,7 @@ export const flashcardsVocab = [
   {
     id: 'card-1',
     en: 'Piece of cake',
-    es: 'Pan comido / Muy fácil',
+    es: 'Pan comido (Una tarea o examen muy fácil de lograr)',
     category: 'Idiom',
     example: 'The English exam was a piece of cake!',
     phonetic: '/piːs əv keɪk/',
@@ -83,7 +83,7 @@ export const flashcardsVocab = [
   {
     id: 'card-ice',
     en: 'Break the ice',
-    es: 'Romper el hielo / Iniciar una conversación',
+    es: 'Romper el hielo (Iniciar una conversación amigable y distendida)',
     category: 'Idiom',
     example: 'A friendly greeting helps to break the ice in any meeting.',
     phonetic: '/breɪk ðiː aɪs/',
@@ -92,7 +92,7 @@ export const flashcardsVocab = [
   {
     id: 'card-moon',
     en: 'Over the moon',
-    es: 'Estar sumamente feliz / Radiante de alegría',
+    es: 'Estar sumamente feliz (Radiante de alegría y euforia)',
     category: 'Idiom',
     example: 'She was over the moon when she passed her English exam.',
     phonetic: '/ˈoʊvər ðə muːn/',
@@ -101,7 +101,7 @@ export const flashcardsVocab = [
   {
     id: 'card-2',
     en: 'Bite the bullet',
-    es: 'Hacer de tripas corazón / Afrontar lo inevitable',
+    es: 'Hacer de tripas corazón (Afrontar una situación difícil con valentía)',
     category: 'Idiom',
     example: 'I decided to bite the bullet and talk to my boss about a raise.',
     phonetic: '/baɪt ðə ˈbʊlɪt/'
@@ -109,7 +109,7 @@ export const flashcardsVocab = [
   {
     id: 'card-3',
     en: 'Break a leg',
-    es: '¡Buena suerte! (en artes escénicas)',
+    es: '¡Mucho éxito! (Desear buena suerte antes de una presentación o reto)',
     category: 'Idiom',
     example: 'Break a leg tonight! You are going to do amazing on stage.',
     phonetic: '/breɪk ə leɡ/'
@@ -117,7 +117,7 @@ export const flashcardsVocab = [
   {
     id: 'card-4',
     en: 'Call it a day',
-    es: 'Dar por terminado el trabajo por hoy',
+    es: 'Parar por hoy (Dar por concluida la jornada de trabajo o estudio)',
     category: 'Collocation',
     example: 'We have been coding for ten hours; let\'s call it a day.',
     phonetic: '/kɔːl ɪt ə deɪ/'
@@ -125,7 +125,7 @@ export const flashcardsVocab = [
   {
     id: 'card-5',
     en: 'Hit the nail on the head',
-    es: 'Dar en el clavo / Acertar por completo',
+    es: 'Dar en el clavo (Acertar con precisión exacta en el punto clave)',
     category: 'Idiom',
     example: 'Your analysis of the problem really hit the nail on the head.',
     phonetic: '/hɪt ðə neɪl ɒn ðə hed/'
@@ -133,7 +133,7 @@ export const flashcardsVocab = [
   {
     id: 'card-6',
     en: 'Under the weather',
-    es: 'Sentirse indispuesto / Algo enfermo',
+    es: 'Sentirse indispuesto (Estar algo resfriado, cansado o bajo de ánimo)',
     category: 'Common Phrase',
     example: 'I am feeling a bit under the weather today, so I will stay home.',
     phonetic: '/ˈʌndə ðə ˈweðə/'
@@ -141,7 +141,7 @@ export const flashcardsVocab = [
   {
     id: 'card-7',
     en: 'Burn the midnight oil',
-    es: 'Quemarse las pestañas / Trasnochar estudiando o trabajando',
+    es: 'Quemarse las pestañas (Trasnochar estudiando o trabajando intensamente)',
     category: 'Idiom',
     example: 'He is burning the midnight oil preparing for his final exams.',
     phonetic: '/bɜːn ðə ˈmɪdnaɪt ɔɪl/'
@@ -149,7 +149,7 @@ export const flashcardsVocab = [
   {
     id: 'card-8',
     en: 'Spill the beans',
-    es: 'Soltar la sopa / Revelar un secreto',
+    es: 'Soltar la sopa (Revelar un secreto o confesar algo antes de tiempo)',
     category: 'Idiom',
     example: 'Don\'t spill the beans about the surprise birthday party!',
     phonetic: '/spɪl ðə biːnz/'
@@ -157,7 +157,7 @@ export const flashcardsVocab = [
   {
     id: 'card-9',
     en: 'See eye to eye',
-    es: 'Estar completamente de acuerdo',
+    es: 'Estar en sintonía (Compartir la misma visión y estar de acuerdo)',
     category: 'Phrase',
     example: 'My colleague and I don\'t always see eye to eye, but we respect each other.',
     phonetic: '/siː aɪ tuː aɪ/'
@@ -165,7 +165,7 @@ export const flashcardsVocab = [
   {
     id: 'card-10',
     en: 'Cost an arm and a leg',
-    es: 'Costar un ojo de la cara / Ser carísimo',
+    es: 'Costar un ojo de la cara (Ser excesivamente caro o desproporcionado)',
     category: 'Idiom',
     example: 'That new flagship smartphone costs an arm and a leg.',
     phonetic: '/kɒst ən ɑːm ənd ə leɡ/'
@@ -173,7 +173,7 @@ export const flashcardsVocab = [
   {
     id: 'card-11',
     en: 'Once in a blue moon',
-    es: 'Muy de vez en cuando / Rara vez',
+    es: 'Una vez a las mil quinientas (Un evento que ocurre en raras ocasiones)',
     category: 'Phrase',
     example: 'I only eat fast food once in a blue moon.',
     phonetic: '/wʌns ɪn ə bluː muːn/'
@@ -181,7 +181,7 @@ export const flashcardsVocab = [
   {
     id: 'card-12',
     en: 'Cutting corners',
-    es: 'Tomar atajos / Escatimar en calidad',
+    es: 'Tomar atajos (Hacer las cosas a medias o descuidar la calidad)',
     category: 'Business Idiom',
     example: 'Cutting corners on software security can lead to massive breaches.',
     phonetic: '/ˈkʌtɪŋ ˈkɔːnəz/'
