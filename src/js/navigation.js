@@ -47,12 +47,25 @@ export function initNavigation(onViewChange) {
     }
   });
 
-  // Delegación de eventos global para cualquier enlace con data-nav-link o data-target
+  // 1. Asignar listeners directos a todos los enlaces de la barra de navegación estática
+  const allStaticLinks = document.querySelectorAll('.nav-link, .drawer-link, .bottom-nav-item, .brand, [data-nav-link]');
+  allStaticLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      const targetView = link.getAttribute('data-target') || link.getAttribute('href')?.replace('#', '');
+      if (targetView && VALID_VIEWS.includes(targetView)) {
+        e.preventDefault();
+        navigateToView(targetView);
+        toggleDrawer(false);
+      }
+    });
+  });
+
+  // 2. Delegación de eventos global como respaldo para enlaces o botones creados dinámicamente
   document.addEventListener('click', (e) => {
     const link = e.target.closest('[data-nav-link], [data-target]');
     if (!link) return;
 
-    // Si es un botón o elemento interactivo dentro de una tarjeta que no sea enlace de navegación, omitir
+    // Si ya fue procesado o es un botón sin data-target, omitir
     if (link.tagName === 'BUTTON' && !link.hasAttribute('data-target')) return;
 
     const targetView = link.getAttribute('data-target') || link.getAttribute('href')?.replace('#', '');

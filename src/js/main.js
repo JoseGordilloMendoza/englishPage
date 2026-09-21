@@ -13,15 +13,8 @@ import {
 } from './render.js';
 
 function initApp() {
+  // 1. Inicializar navegación primero para que todos los clics de la barra funcionen siempre
   try {
-    // Renderizado inicial de todas las vistas
-    renderDashboard();
-    renderGrammar();
-    renderVocabulary();
-    renderVerbs();
-    renderQuiz();
-
-    // Inicializar enrutador SPA y control del menú móvil
     initNavigation((activeViewId) => {
       if (activeViewId === 'inicio') {
         renderDashboard();
@@ -31,11 +24,18 @@ function initApp() {
         renderQuiz();
       }
     });
-
-    console.log('✨ EnglishPage SPA inicializada correctamente.');
-  } catch (error) {
-    console.error('Error inicializando EnglishPage:', error);
+  } catch (navError) {
+    console.error('Error inicializando navegación:', navError);
   }
+
+  // 2. Renderizar cada vista de forma aislada para que un fallo en una no bloquee a las demás
+  try { renderDashboard(); } catch (e) { console.error('Error en renderDashboard:', e); }
+  try { renderGrammar(); } catch (e) { console.error('Error en renderGrammar:', e); }
+  try { renderVocabulary(); } catch (e) { console.error('Error en renderVocabulary:', e); }
+  try { renderVerbs(); } catch (e) { console.error('Error en renderVerbs:', e); }
+  try { renderQuiz(); } catch (e) { console.error('Error en renderQuiz:', e); }
+
+  console.log('✨ EnglishPage SPA inicializada correctamente.');
 }
 
 // Garantizar ejecución inmediata si el DOM ya está listo (evita bloqueos tras recargas de Vite)
