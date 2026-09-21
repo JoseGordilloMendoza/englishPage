@@ -223,3 +223,111 @@ export const verbList = [
   { inf: 'win', past: 'won', part: 'won', es: 'ganar' },
   { inf: 'write', past: 'wrote', part: 'written', es: 'escribir' }
 ];
+
+export const quizQuestions = [
+  {
+    id: 'q1',
+    category: 'Idioms & Vocabulario',
+    question: '¿Qué significa realmente la expresión "Piece of cake"?',
+    options: [
+      'Una porción de tarta de cumpleaños',
+      'Algo sumamente fácil de hacer',
+      'Una situación difícil o amarga',
+      'Un regalo sorpresa'
+    ],
+    answer: 1,
+    explanation: '"Piece of cake" es un modismo muy común que equivale a nuestro "pan comido" o "facilísimo".'
+  },
+  {
+    id: 'q2',
+    category: 'Verbos Irregulares',
+    question: '¿Cuál es la forma correcta del Past Simple del verbo "choose"?',
+    options: [
+      'choosed',
+      'chosen',
+      'chose',
+      'chosing'
+    ],
+    answer: 2,
+    explanation: 'El verbo "choose" es irregular: Infinitive: choose, Past Simple: chose, Past Participle: chosen.'
+  },
+  {
+    id: 'q3',
+    category: 'Gramática: Wish Clauses',
+    question: 'Completa la oración de arrepentimiento pasado: "She wishes she ______ harder for the final exam."',
+    options: [
+      'had studied',
+      'would study',
+      'studied',
+      'has studied'
+    ],
+    answer: 0,
+    explanation: 'Para expresar arrepentimientos sobre hechos del pasado (Past Regrets) usamos "wish + Past Perfect (had + participio)".'
+  },
+  {
+    id: 'q4',
+    category: 'Idioms & Vocabulario',
+    question: 'Si alguien te dice "Break a leg!" antes de subirte al escenario, te está deseando:',
+    options: [
+      'Que tengas cuidado de no caerte',
+      '¡Mucho éxito y buena suerte!',
+      'Que te tomes un descanso',
+      'Que canceles la presentación'
+    ],
+    answer: 1,
+    explanation: '"Break a leg" es una expresión teatral tradicional en inglés que se utiliza para desear buena suerte.'
+  },
+  {
+    id: 'q5',
+    category: 'Verbos Irregulares',
+    question: 'Completa con el Past Participle: "They have ______ all the bridge blueprints."',
+    options: [
+      'drawed',
+      'drew',
+      'drawn',
+      'drawing'
+    ],
+    answer: 2,
+    explanation: 'Las formas de este verbo son: draw (infinitivo) ➔ drew (pasado) ➔ drawn (participio pasado).'
+  },
+  {
+    id: 'q6',
+    category: 'Gramática: Conditionals',
+    question: 'En el Second Conditional (situaciones hipotéticas presentes): "If I ______ a car, I would drive to the coast."',
+    options: [
+      'have',
+      'had',
+      'would have',
+      'had had'
+    ],
+    answer: 1,
+    explanation: 'La estructura del Second Conditional es: If + Past Simple, ... would + infinitivo.'
+  },
+  {
+    id: 'q7',
+    category: 'Idioms & Vocabulario',
+    question: '¿Qué significa la expresión "Cost an arm and a leg"?',
+    options: [
+      'Causar una lesión física',
+      'Ser extraordinariamente costoso o caro',
+      'Hacer un esfuerzo físico agotador',
+      'Comprar algo en rebaja'
+    ],
+    answer: 1,
+    explanation: 'Equivale a la frase en español "costar un ojo de la cara".'
+  },
+  {
+    id: 'q8',
+    category: 'Verbos Irregulares',
+    question: '¿Cuál es el significado en español del verbo irregular "hide / hid / hidden"?',
+    options: [
+      'Golpear',
+      'Montar / cabalgar',
+      'Esconder / ocultar',
+      'Sostener'
+    ],
+    answer: 2,
+    explanation: '"Hide" significa esconder u ocultar. En pasado es "hid" y en participio "hidden".'
+  }
+];
+

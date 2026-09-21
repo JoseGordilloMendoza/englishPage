@@ -3,7 +3,7 @@
  * Genera e inyecta dinámicamente el contenido de las vistas del sistema.
  */
 
-import { grammarRules, flashcardsVocab, verbList } from './data.js';
+import { grammarRules, flashcardsVocab, verbList, quizQuestions } from './data.js';
 import { speakText } from './speech.js';
 import { isCardMastered, toggleCardMastered, getStudyStats } from './storage.js';
 import { navigateToView } from './navigation.js';
@@ -35,8 +35,8 @@ export function renderDashboard() {
         <button class="btn btn-primary" id="btn-start-vocab">
           <span>🃏 Practicar Flashcards</span>
         </button>
-        <button class="btn btn-secondary" id="btn-view-grammar">
-          <span>📖 Ver Gramática</span>
+        <button class="btn btn-secondary" id="btn-start-quiz">
+          <span>🎯 Desafío Quiz</span>
         </button>
       </div>
     </div>
@@ -111,7 +111,7 @@ export function renderDashboard() {
 
   // Listeners de botones dentro del dashboard
   document.getElementById('btn-start-vocab')?.addEventListener('click', () => navigateToView('vocabulario'));
-  document.getElementById('btn-view-grammar')?.addEventListener('click', () => navigateToView('gramatica'));
+  document.getElementById('btn-start-quiz')?.addEventListener('click', () => navigateToView('quiz'));
   document.getElementById('btn-daily-audio')?.addEventListener('click', () => speakText(randomCard.en));
 
   // Tarjetas clickeables hacia sus secciones
@@ -462,74 +462,242 @@ export function renderVerbs() {
 
 /**
  * Renderiza la vista de Acerca de con especificaciones técnicas y créditos.
+// ==========================================================================
+// ESTADO Y LÓGICA DEL DESAFÍO / QUIZ INTERACTIVO
+// ==========================================================================
+let quizRoundQuestions = [];
+let currentQuestionIndex = 0;
+let quizScore = 0;
+let isAnswered = false;
+let selectedOptionIndex = null;
+
+/**
+ * Inicia una nueva ronda de 5 preguntas aleatorias.
  */
-export function renderAbout() {
-  const container = document.getElementById('about-content');
+function startNewQuiz() {
+  quizRoundQuestions = [...quizQuestions].sort(() => 0.5 - Math.random()).slice(0, 5);
+  currentQuestionIndex = 0;
+  quizScore = 0;
+  isAnswered = false;
+  selectedOptionIndex = null;
+}
+
+/**
+ * Renderiza la vista de Quiz Interactivo (#quiz).
+ */
+export function renderQuiz() {
+  const container = document.getElementById('quiz-content');
   if (!container) return;
 
-  container.innerHTML = `
-    <div class="section-intro">
-      <h1 class="section-title">Acerca de EnglishPage</h1>
-      <p class="section-description">
-        Aplicación Web Móvil e Interactiva diseñada para el estudio y repaso de conceptos clave del idioma inglés.
-      </p>
-    </div>
+  // Si aún no hay preguntas seleccionadas, inicializar la ronda
+  if (quizRoundQuestions.length === 0) {
+    startNewQuiz();
+  }
 
-    <div class="about-grid">
-      <!-- Ficha Técnica -->
-      <div class="about-card card-box">
-        <div class="about-header">
-          <span class="about-badge">⚙️ Arquitectura</span>
-          <h2 class="about-card-title">Especificaciones Técnicas</h2>
+  const isCompleted = currentQuestionIndex >= quizRoundQuestions.length;
+
+  let quizMainHtml = '';
+
+  if (isCompleted) {
+    // Pantalla de Resultados
+    const total = quizRoundQuestions.length;
+    const percentage = Math.round((quizScore / total) * 100);
+    let feedback = '';
+    let badgeClass = 'bg-emerald';
+
+    if (percentage === 100) {
+      feedback = '¡Extraordinario! Tienes un dominio impecable del vocabulario y la gramática.';
+    } else if (percentage >= 70) {
+      feedback = '¡Muy buen trabajo! Tienes bases muy sólidas. ¡Sigue practicando para alcanzar la perfección!';
+    } else {
+      feedback = '¡Buen esfuerzo! Te recomendamos repasar las flashcards 3D y la sección de verbos para reforzar.';
+      badgeClass = 'bg-amber';
+    }
+
+    quizMainHtml = `
+      <div class="quiz-result-card card-box">
+        <div class="result-trophy">🏆</div>
+        <h2 class="result-title">¡Desafío Completado!</h2>
+        <div class="result-score-badge ${badgeClass}">
+          <span class="score-number">${quizScore} / ${total}</span>
+          <span class="score-percent">(${percentage}% de aciertos)</span>
         </div>
-        <ul class="about-specs-list">
-          <li><strong>Patrón Arquitectónico:</strong> Single Page Application (SPA) estática.</li>
-          <li><strong>Estructura:</strong> HTML5 semántico con navegación por contenedores dinámicos.</li>
-          <li><strong>Estilos e Interfaz:</strong> CSS3 puro (Grid, Flexbox, variables y animaciones 3D sin frameworks).</li>
-          <li><strong>Lógica y Renderizado:</strong> Vanilla JavaScript (ES6+ modular, separación estricta data.js / render.js).</li>
-          <li><strong>Entorno de Desarrollo:</strong> Vite Frontend Tooling.</li>
-          <li><strong>Control de Versiones:</strong> Git & GitHub.</li>
-        </ul>
+        <p class="result-feedback">${feedback}</p>
+
+        <div class="result-actions">
+          <button class="btn btn-primary" id="btn-restart-quiz">
+            <span>🔄 Jugar Otro Desafío</span>
+          </button>
+          <button class="btn btn-secondary" id="btn-go-vocab">
+            <span>🃏 Ir a Flashcards</span>
+          </button>
+        </div>
       </div>
+    `;
+  } else {
+    // Pantalla de Pregunta Activa
+    const q = quizRoundQuestions[currentQuestionIndex];
+    const questionNumber = currentQuestionIndex + 1;
+    const totalQuestions = quizRoundQuestions.length;
+    const progressPercent = (questionNumber / totalQuestions) * 100;
 
-      <!-- Objetivos del Sistema -->
-      <div class="about-card card-box">
-        <div class="about-header">
-          <span class="about-badge">🎯 Laboratorio</span>
-          <h2 class="about-card-title">Objetivos del Proyecto</h2>
+    const letters = ['A', 'B', 'C', 'D'];
+    const optionsHtml = q.options.map((opt, idx) => {
+      let optClass = 'quiz-option-btn';
+      if (isAnswered) {
+        if (idx === q.answer) {
+          optClass += ' correct';
+        } else if (idx === selectedOptionIndex) {
+          optClass += ' incorrect';
+        } else {
+          optClass += ' disabled';
+        }
+      }
+
+      return `
+        <button class="${optClass}" data-opt-idx="${idx}" ${isAnswered ? 'disabled' : ''}>
+          <span class="option-letter">${letters[idx]}</span>
+          <span class="option-text">${escapeHtml(opt)}</span>
+          ${isAnswered && idx === q.answer ? '<span class="option-status-icon">✓</span>' : ''}
+          ${isAnswered && idx === selectedOptionIndex && idx !== q.answer ? '<span class="option-status-icon">✕</span>' : ''}
+        </button>
+      `;
+    }).join('');
+
+    const explanationHtml = isAnswered ? `
+      <div class="quiz-explanation-box">
+        <div class="explanation-header">
+          <span class="explanation-icon">${selectedOptionIndex === q.answer ? '🎉 ¡Correcto!' : '💡 Explicación:'}</span>
         </div>
-        <p class="about-text">
-          Desarrollar una aplicación web local responsive orientada a dispositivos móviles aplicando conceptos avanzados de desarrollo móvil web y multiplataforma:
+        <p class="explanation-text">${escapeHtml(q.explanation)}</p>
+        <button class="btn btn-primary btn-next-question" id="btn-next-question">
+          <span>${questionNumber < totalQuestions ? 'Siguiente Pregunta ➔' : 'Ver Resultados Finales 🏆'}</span>
+        </button>
+      </div>
+    ` : '';
+
+    quizMainHtml = `
+      <div class="quiz-card card-box">
+        <!-- Barra de Progreso del Quiz -->
+        <div class="quiz-progress-bar-wrap">
+          <div class="quiz-progress-bar-fill" style="width: ${progressPercent}%"></div>
+        </div>
+
+        <div class="quiz-card-header">
+          <span class="badge-tag">${escapeHtml(q.category)}</span>
+          <div class="quiz-meta-info">
+            <span class="quiz-step-count">Pregunta ${questionNumber} de ${totalQuestions}</span>
+            <span class="quiz-score-pill">Puntaje: ${quizScore}</span>
+          </div>
+        </div>
+
+        <div class="quiz-question-row">
+          <h2 class="quiz-question-title">${escapeHtml(q.question)}</h2>
+          <button class="btn-icon btn-sm btn-quiz-speech" data-speech="${q.question}" aria-label="Escuchar pregunta" title="Escuchar">
+            🔊
+          </button>
+        </div>
+
+        <div class="quiz-options-list">
+          ${optionsHtml}
+        </div>
+
+        ${explanationHtml}
+      </div>
+    `;
+  }
+
+  // Tips adicionales para estudiantes de inglés
+  const tipsHtml = `
+    <div class="tips-section">
+      <div class="section-intro" style="margin-top: 36px; margin-bottom: 16px;">
+        <h2 class="section-title" style="font-size: 1.3rem;">💡 Tips de Fluidez & Errores Frecuentes</h2>
+        <p class="section-description">
+          Acelera tu aprendizaje evitando los tropiezos más comunes de los hispanohablantes.
         </p>
-        <ul class="about-checklist">
-          <li>✓ Interfaz adaptada prioritariamente a teléfonos celulares (Mobile-First).</li>
-          <li>✓ 5 vistas o secciones interactivas sin recarga de página.</li>
-          <li>✓ Manipulación dinámica del DOM mediante JavaScript Vanilla.</li>
-          <li>✓ Presentación visual mediante tarjetas interactivas y listas estructuradas.</li>
-          <li>✓ Flip cards 3D con aceleración por hardware.</li>
-          <li>✓ Síntesis de voz nativa (Web Speech API) integrada.</li>
-        </ul>
       </div>
 
-      <!-- Requisitos Cumplidos -->
-      <div class="about-card card-box">
-        <div class="about-header">
-          <span class="about-badge">📋 Requerimientos</span>
-          <h2 class="about-card-title">Mapeo de Requerimientos</h2>
+      <div class="tips-grid">
+        <div class="tip-card card-box">
+          <div class="tip-icon">⚠️</div>
+          <h3 class="tip-title">False Friends (Falsos Amigos)</h3>
+          <p class="tip-desc">
+            <strong>Actually</strong> no significa "actualmente", sino <em>"en realidad"</em> o <em>"de hecho"</em>. Para decir "actualmente", usa <strong>Currently</strong> o <strong>Nowadays</strong>.
+          </p>
         </div>
-        <div class="rf-tags">
-          <span class="rf-pill">RF-01: Navegación SPA</span>
-          <span class="rf-pill">RF-02: Renderizado Dinámico Vocabulario</span>
-          <span class="rf-pill">RF-03: Renderizado Dinámico de Listas</span>
-          <span class="rf-pill">RF-04: Flip 3D Interactivo</span>
-          <span class="rf-pill">RF-05: Menú Móvil Hamburguesa</span>
-          <span class="rf-pill">RNF-01: Responsive Mobile First</span>
-          <span class="rf-pill">RNF-02: Cero librerías externas</span>
-          <span class="rf-pill">RNF-03: Modularidad estricta</span>
+
+        <div class="tip-card card-box">
+          <div class="tip-icon">🔄</div>
+          <h3 class="tip-title">Make vs. Do</h3>
+          <p class="tip-desc">
+            Usa <strong>Make</strong> para crear o producir algo (<em>make coffee, make a decision</em>). Usa <strong>Do</strong> para acciones, tareas o rutinas (<em>do homework, do exercise</em>).
+          </p>
+        </div>
+
+        <div class="tip-card card-box">
+          <div class="tip-icon">🎧</div>
+          <h3 class="tip-title">Técnica Shadowing</h3>
+          <p class="tip-desc">
+            Toca el botón de audio 🔊 en las flashcards y repite inmediatamente la frase en voz alta imitando el ritmo, acento y entonación.
+          </p>
         </div>
       </div>
     </div>
   `;
+
+  container.innerHTML = `
+    <div class="section-intro">
+      <h1 class="section-title">Desafío Rápido de Inglés (Quick Quiz)</h1>
+      <p class="section-description">
+        Pon a prueba lo que has aprendido en vocabulario, verbos y gramática con este desafío interactivo.
+      </p>
+    </div>
+
+    ${quizMainHtml}
+    ${tipsHtml}
+  `;
+
+  // Asignar listeners del Quiz
+  if (isCompleted) {
+    document.getElementById('btn-restart-quiz')?.addEventListener('click', () => {
+      startNewQuiz();
+      renderQuiz();
+    });
+    document.getElementById('btn-go-vocab')?.addEventListener('click', () => {
+      navigateToView('vocabulario');
+    });
+  } else {
+    // Click en opción de respuesta
+    container.querySelectorAll('.quiz-option-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (isAnswered) return;
+        const optIdx = parseInt(btn.getAttribute('data-opt-idx'), 10);
+        selectedOptionIndex = optIdx;
+        isAnswered = true;
+
+        const currentQ = quizRoundQuestions[currentQuestionIndex];
+        if (optIdx === currentQ.answer) {
+          quizScore += 1;
+        }
+
+        renderQuiz();
+      });
+    });
+
+    // Audio de la pregunta
+    container.querySelector('.btn-quiz-speech')?.addEventListener('click', (e) => {
+      const text = e.currentTarget.getAttribute('data-speech');
+      if (text) speakText(text);
+    });
+
+    // Botón siguiente pregunta
+    document.getElementById('btn-next-question')?.addEventListener('click', () => {
+      currentQuestionIndex += 1;
+      isAnswered = false;
+      selectedOptionIndex = null;
+      renderQuiz();
+    });
+  }
 }
 
 /**

@@ -4,7 +4,7 @@
  * y el control del menú móvil desplegable (hamburguesa).
  */
 
-const VALID_VIEWS = ['inicio', 'gramatica', 'vocabulario', 'verbos', 'acerca-de'];
+const VALID_VIEWS = ['inicio', 'gramatica', 'vocabulario', 'verbos', 'quiz'];
 const DEFAULT_VIEW = 'inicio';
 
 let onViewChangeCallback = null;
@@ -15,20 +15,25 @@ export function initNavigation(onViewChange) {
   const menuToggle = document.getElementById('menu-toggle');
   const navDrawer = document.getElementById('nav-drawer');
   const drawerOverlay = document.getElementById('drawer-overlay');
-  const navLinks = document.querySelectorAll('[data-nav-link]');
 
-  // Alternar menú hamburguesa
+  // Alternar menú hamburguesa con validaciones de existencia
   const toggleDrawer = (open) => {
+    if (!navDrawer || !drawerOverlay) return;
     const isOpen = open !== undefined ? open : !navDrawer.classList.contains('open');
     navDrawer.classList.toggle('open', isOpen);
     drawerOverlay.classList.toggle('open', isOpen);
-    menuToggle.setAttribute('aria-expanded', isOpen.toString());
-    menuToggle.classList.toggle('active', isOpen);
+    if (menuToggle) {
+      menuToggle.setAttribute('aria-expanded', isOpen.toString());
+      menuToggle.classList.toggle('active', isOpen);
+    }
     document.body.classList.toggle('no-scroll', isOpen);
   };
 
   if (menuToggle) {
-    menuToggle.addEventListener('click', () => toggleDrawer());
+    menuToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleDrawer();
+    });
   }
 
   if (drawerOverlay) {
@@ -42,47 +47,53 @@ export function initNavigation(onViewChange) {
     }
   });
 
-  // Event listener para links de navegación
-  navLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-      const targetView = link.getAttribute('data-target') || link.getAttribute('href')?.replace('#', '');
-      if (targetView && VALID_VIEWS.includes(targetView)) {
-        e.preventDefault();
-        navigateToView(targetView);
-        toggleDrawer(false);
-      }
-    });
+  // Delegación de eventos global para cualquier enlace con data-nav-link o data-target
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('[data-nav-link], [data-target]');
+    if (!link) return;
+
+    // Si es un botón o elemento interactivo dentro de una tarjeta que no sea enlace de navegación, omitir
+    if (link.tagName === 'BUTTON' && !link.hasAttribute('data-target')) return;
+
+    const targetView = link.getAttribute('data-target') || link.getAttribute('href')?.replace('#', '');
+    if (targetView && VALID_VIEWS.includes(targetView)) {
+      e.preventDefault();
+      navigateToView(targetView);
+      toggleDrawer(false);
+    }
   });
 
-  // Escuchar cambios en el hash de la URL
+  // Escuchar cambios directos en el hash de la URL (botones adelante/atrás del navegador)
   window.addEventListener('hashchange', () => {
     const hash = window.location.hash.replace('#', '');
     if (VALID_VIEWS.includes(hash)) {
       activateView(hash);
     } else {
-      navigateToView(DEFAULT_VIEW);
+      activateView(DEFAULT_VIEW);
     }
   });
 
-  // Carga inicial según el hash actual o default
+  // Carga inicial según el hash actual de la URL o vista por defecto
   const initialHash = window.location.hash.replace('#', '');
   const initialView = VALID_VIEWS.includes(initialHash) ? initialHash : DEFAULT_VIEW;
-  navigateToView(initialView, false);
+  navigateToView(initialView, true);
 }
 
 /**
- * Cambia la vista activa y actualiza el hash de la URL.
+ * Cambia la vista activa de forma inmediata y sincroniza el hash de la URL.
  * @param {string} viewId 
  * @param {boolean} updateHash 
  */
 export function navigateToView(viewId, updateHash = true) {
   if (!VALID_VIEWS.includes(viewId)) viewId = DEFAULT_VIEW;
 
+  // Actualizar hash en la URL si difiere
   if (updateHash && window.location.hash !== `#${viewId}`) {
     window.location.hash = viewId;
-  } else {
-    activateView(viewId);
   }
+
+  // Activar la vista en el DOM de inmediato sin esperar eventos asíncronos
+  activateView(viewId);
 }
 
 /**
@@ -91,13 +102,19 @@ export function navigateToView(viewId, updateHash = true) {
  */
 function activateView(viewId) {
   const sections = document.querySelectorAll('section.view');
+  let found = false;
+
   sections.forEach(section => {
     if (section.id === viewId) {
       section.classList.add('active');
+      found = true;
     } else {
       section.classList.remove('active');
     }
   });
+
+  // Si no se encontró la sección (por ejemplo, si el DOM aún no estaba listo), no continuar
+  if (!found) return;
 
   // Actualizar enlaces de navegación activos
   const allNavLinks = document.querySelectorAll('[data-nav-link]');
