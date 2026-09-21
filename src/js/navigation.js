@@ -12,50 +12,14 @@ let onViewChangeCallback = null;
 export function initNavigation(onViewChange) {
   onViewChangeCallback = onViewChange;
 
-  const menuToggle = document.getElementById('menu-toggle');
-  const navDrawer = document.getElementById('nav-drawer');
-  const drawerOverlay = document.getElementById('drawer-overlay');
-
-  // Alternar menú hamburguesa con validaciones de existencia
-  const toggleDrawer = (open) => {
-    if (!navDrawer || !drawerOverlay) return;
-    const isOpen = open !== undefined ? open : !navDrawer.classList.contains('open');
-    navDrawer.classList.toggle('open', isOpen);
-    drawerOverlay.classList.toggle('open', isOpen);
-    if (menuToggle) {
-      menuToggle.setAttribute('aria-expanded', isOpen.toString());
-      menuToggle.classList.toggle('active', isOpen);
-    }
-    document.body.classList.toggle('no-scroll', isOpen);
-  };
-
-  if (menuToggle) {
-    menuToggle.addEventListener('click', (e) => {
-      e.stopPropagation();
-      toggleDrawer();
-    });
-  }
-
-  if (drawerOverlay) {
-    drawerOverlay.addEventListener('click', () => toggleDrawer(false));
-  }
-
-  // Cerrar con tecla Escape
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && navDrawer && navDrawer.classList.contains('open')) {
-      toggleDrawer(false);
-    }
-  });
-
   // 1. Asignar listeners directos a todos los enlaces de la barra de navegación estática
-  const allStaticLinks = document.querySelectorAll('.nav-link, .drawer-link, .bottom-nav-item, .brand, [data-nav-link]');
+  const allStaticLinks = document.querySelectorAll('.nav-link, .bottom-nav-item, .brand, [data-nav-link]');
   allStaticLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       const targetView = link.getAttribute('data-target') || link.getAttribute('href')?.replace('#', '');
       if (targetView && VALID_VIEWS.includes(targetView)) {
         e.preventDefault();
         navigateToView(targetView);
-        toggleDrawer(false);
       }
     });
   });
@@ -72,7 +36,6 @@ export function initNavigation(onViewChange) {
     if (targetView && VALID_VIEWS.includes(targetView)) {
       e.preventDefault();
       navigateToView(targetView);
-      toggleDrawer(false);
     }
   });
 
