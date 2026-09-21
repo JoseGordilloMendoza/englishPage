@@ -422,14 +422,14 @@
 /* Escenario y Contenedor 3D */
 .flashcard-scene {
   perspective: 1000px;
-  height: 295px;
+  height: 275px;
   cursor: pointer;
   user-select: none;
 }
 
 @media (max-width: 480px) {
   .flashcard-scene {
-    height: 290px;
+    height: 270px;
   }
 }
 
@@ -495,52 +495,68 @@
   padding: 4px 0;
 }
 
-.card-thumb-wrapper {
-  width: 74px;
-  height: 74px;
-  margin: 0 auto 8px auto;
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  border: 2px solid var(--color-border);
-  background: var(--color-bg);
-}
-
-.card-thumb-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform var(--transition-fast);
-}
-
-.flashcard-inner:hover .card-thumb-img {
-  transform: scale(1.06);
-}
-
-.card-thumb-placeholder {
-  width: 74px;
-  height: 74px;
-  margin: 0 auto 8px auto;
-  border-radius: var(--radius-md);
-  background: linear-gradient(135deg, rgba(79, 70, 229, 0.05) 0%, rgba(99, 102, 241, 0.12) 100%);
-  border: 1.5px dashed rgba(79, 70, 229, 0.22);
+.concept-badge-wrapper {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 10px auto;
+  border-radius: var(--radius-full);
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
 }
 
-.card-placeholder-icon {
-  color: var(--color-primary);
-  opacity: 0.6;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.flashcard-inner:hover .concept-badge-wrapper {
+  transform: scale(1.08);
 }
 
-.card-placeholder-icon svg {
-  width: 26px;
-  height: 26px;
+.concept-badge-wrapper svg {
+  width: 28px;
+  height: 28px;
+}
+
+/* Temas cromáticos sutiles para clasificar las expresiones conceptualmente */
+.theme-indigo {
+  background: #eef2ff;
+  color: #4f46e5;
+  border: 1.5px solid #c7d2fe;
+}
+
+.theme-emerald {
+  background: #ecfdf5;
+  color: #059669;
+  border: 1.5px solid #a7f3d0;
+}
+
+.theme-amber {
+  background: #fffbeb;
+  color: #d97706;
+  border: 1.5px solid #fde68a;
+}
+
+.theme-rose {
+  background: #fff1f2;
+  color: #e11d48;
+  border: 1.5px solid #fecdd3;
+}
+
+.theme-purple {
+  background: #faf5ff;
+  color: #9333ea;
+  border: 1.5px solid #e9d5ff;
+}
+
+.theme-sky {
+  background: #f0f9ff;
+  color: #0284c7;
+  border: 1.5px solid #bae6fd;
+}
+
+.theme-slate {
+  background: #f8fafc;
+  color: #475569;
+  border: 1.5px solid #cbd5e1;
 }
 
 .card-word {

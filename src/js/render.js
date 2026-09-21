@@ -236,15 +236,9 @@ export function renderVocabulary() {
                 </div>
 
                 <div class="card-center">
-                  ${card.image ? `
-                    <div class="card-thumb-wrapper">
-                      <img src="${card.image}" alt="${escapeHtml(card.en)}" class="card-thumb-img" loading="lazy" />
-                    </div>
-                  ` : `
-                    <div class="card-thumb-placeholder">
-                      <span class="card-placeholder-icon">${icons.vocab()}</span>
-                    </div>
-                  `}
+                  <div class="concept-badge-wrapper theme-${card.theme || 'indigo'}">
+                    ${(icons[card.icon] || icons.vocab)('concept-icon')}
+                  </div>
                   <h2 class="card-word">${card.en}</h2>
                   <span class="card-phonetic">${card.phonetic}</span>
                 </div>
