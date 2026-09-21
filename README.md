@@ -2,8 +2,6 @@
 
 Una aplicacion web Single Page Application (SPA) orientada a dispositivos moviles y de escritorio, desarrollada para el aprendizaje activo y repaso de conceptos clave del idioma ingles (gramatica estructurada, expresiones idiomaticas en flashcards 3D, directorio de verbos irregulares y quiz interactivo).
 
-Proyecto academico para el curso de **Plataformas Emergentes**.
-
 Repositorio GitHub: [https://github.com/JoseGordilloMendoza/englishPage.git](https://github.com/JoseGordilloMendoza/englishPage.git)
 
 ---
@@ -91,19 +89,6 @@ englishPage/
 
 ---
 
-## Matriz de Cumplimiento de Requerimientos
-
-| Requerimiento | Estado | Implementacion |
-| :--- | :--- | :--- |
-| **Tema Libre** | Cumplido | Aplicacion educativa para repaso de ingles (EnglishPage). |
-| **Interfaz Movil Responsive** | Cumplido | Diseno *mobile-first*, barra inferior táctil, botones de 48px, adaptable a PC y smartphones. |
-| **Al menos 5 Vistas / Secciones** | Cumplido | 1) Inicio, 2) Gramatica, 3) Vocabulario, 4) Verbos, 5) Practica Quiz. |
-| **JavaScript Dinamico** | Cumplido | Renderizado del DOM, filtrado de verbos en vivo, sintesis de voz, estado de quiz y localStorage. |
-| **Tarjetas o Listas** | Cumplido | Flashcards 3D, acordeon de reglas gramaticales, tarjetas moviles y tabla de verbos. |
-| **Responsive Celular y PC** | Cumplido | Media queries fluidas (480px, 768px, 1024px) con navegacion condicional desktop/movil. |
-| **Publicado en GitHub** | Cumplido | Codigo fuente versionado y disponible en el repositorio oficial. |
-
----
 
 ## Informacion del Autor
 
