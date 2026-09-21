@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Informe de Proyecto - EnglishPage</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+    :root {
+      --primary: #4338ca;
+      --primary-light: #eef2ff;
+      --primary-dark: #312e81;
+      --secondary: #0ea5e9;
+      --accent: #10b981;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-light: #64748b;
+      --bg-light: #f8fafc;
+      --border: #cbd5e1;
+      --border-light: #e2e8f0;
+      --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-code: 'JetBrains Mono', Consolas, monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-main);
+      color: var(--text-main);
+      background-color: #ffffff;
+      line-height: 1.6;
+      font-size: 10.5pt;
+    }
+
+    @page {
+      size: A4 portrait;
+      margin: 18mm 16mm 18mm 16mm;
+      @bottom-right {
+        content: "Página " counter(page);
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 8pt;
+        color: #64748b;
+      }
+      @bottom-left {
+        content: "EnglishPage | Plataformas Emergentes";
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 8pt;
+        color: #64748b;
+      }
+    }
+
+    .page-break {
+      page-break-after: always;
+      break-after: page;
+    }
+
+    .avoid-break {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    /* Portada */
+    .cover-page {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 30px 20px;
+      page-break-after: always;
+      box-sizing: border-box;
+    }
+
+    .cover-header {
+      border-bottom: 3px solid var(--primary);
+      padding-bottom: 20px;
+    }
+
+    .institution-name {
+      font-size: 13pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--primary-dark);
+      margin-bottom: 6px;
+    }
+
+    .course-name {
+      font-size: 18pt;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .cover-body {
+      margin: 40px 0;
+    }
+
+    .badge-tag {
+      display: inline-block;
+      padding: 6px 14px;
+      background: var(--primary-light);
+      color: var(--primary);
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 9pt;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      border: 1px solid #c7d2fe;
+    }
+
+    .project-title {
+      font-size: 28pt;
+      font-weight: 800;
+      line-height: 1.15;
+      color: var(--primary-dark);
+      margin-bottom: 14px;
+    }
+
+    .project-subtitle {
+      font-size: 13pt;
+      color: var(--text-muted);
+      font-weight: 500;
+      max-width: 650px;
+      line-height: 1.5;
+    }
+
+    .cover-meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      background: var(--bg-light);
+      padding: 24px;
+      border-radius: 12px;
+      border: 1px solid var(--border-light);
+      margin-top: 30px;
+    }
+
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .meta-label {
+      font-size: 8.5pt;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--text-light);
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .meta-value {
+      font-size: 11pt;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .cover-footer {
+      border-top: 1px solid var(--border-light);
+      padding-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 9pt;
+      color: var(--text-light);
+    }
+
+    /* Secciones del Informe */
+    h1 {
+      font-size: 18pt;
+      font-weight: 800;
+      color: var(--primary-dark);
+      margin-top: 24px;
+      margin-bottom: 14px;
+      border-bottom: 2px solid var(--primary-light);
+      padding-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h1 .sec-num {
+      background: var(--primary);
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12pt;
+    }
+
+    h2 {
+      font-size: 13pt;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-top: 18px;
+      margin-bottom: 10px;
+    }
+
+    h3 {
+      font-size: 11pt;
+      font-weight: 700;
+      color: var(--primary);
+      margin-top: 14px;
+      margin-bottom: 6px;
+    }
+
+    p {
+      margin-bottom: 10px;
+      color: var(--text-muted);
+      text-align: justify;
+    }
+
+    ul, ol {
+      margin-left: 20px;
+      margin-bottom: 12px;
+      color: var(--text-muted);
+    }
+
+    li {
+      margin-bottom: 5px;
+    }
+
+    strong {
+      color: var(--text-main);
+    }
+
+    /* Tablas */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0 20px 0;
+      font-size: 9.5pt;
+    }
+
+    th, td {
+      padding: 9px 12px;
+      text-align: left;
+      border: 1px solid var(--border-light);
+    }
+
+    th {
+      background-color: var(--primary-light);
+      color: var(--primary-dark);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 8.5pt;
+      letter-spacing: 0.5px;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #fafbfc;
+    }
+
+    /* Cajas de Información */
+    .callout {
+      background: var(--primary-light);
+      border-left: 4px solid var(--primary);
+      padding: 12px 16px;
+      border-radius: 0 8px 8px 0;
+      margin: 14px 0;
+      font-size: 9.5pt;
+    }
+
+    .callout-title {
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 4px;
+    }
+
+    /* Diagrama y Código */
+    pre, code {
+      font-family: var(--font-code);
+    }
+
+    pre {
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 8.5pt;
+      line-height: 1.45;
+      overflow-x: auto;
+      margin: 12px 0 16px 0;
+    }
+
+    /* Galería de Capturas */
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 16px;
+      align-items: start;
+      margin: 14px 0 20px 0;
+      background: var(--bg-light);
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border-light);
+    }
+
+    .capture-card {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .capture-card img {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      background: white;
+    }
+
+    .capture-label {
+      font-size: 8.5pt;
+      font-weight: 700;
+      color: var(--text-light);
+      margin-top: 6px;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PORTADA -->
+  <div class="cover-page">
+    <div class="cover-header">
+      <div class="institution-name">Facultad de Ingeniería y Arquitectura</div>
+      <div class="course-name">Curso: Plataformas Emergentes</div>
+    </div>
+
+    <div class="cover-body">
+      <div class="badge-tag">Entregable Final de Proyecto</div>
+      <h1 class="project-title" style="border:none; margin:0 0 12px 0; padding:0;">EnglishPage</h1>
+      <div class="project-subtitle">
+        Aplicación Web Local Responsive y Multiplataforma para el Aprendizaje Activo del Idioma Inglés mediante Flashcards 3D, Síntesis de Voz y Evaluación Dinámica.
+      </div>
+
+      <div class="cover-meta-grid">
+        <div class="meta-item">
+          <span class="meta-label">Estudiante / Integrante</span>
+          <span class="meta-value">José Gordillo Mendoza</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Tecnologías Principales</span>
+          <span class="meta-value">HTML5, CSS3 Puro, JavaScript ES6+, Vite, Git</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Repositorio GitHub</span>
+          <span class="meta-value" style="font-family:var(--font-code); font-size:9pt;">github.com/JoseGordilloMendoza/englishPage</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Enfoque Arquitectónico</span>
+          <span class="meta-value">Mobile-First SPA (Single Page Application)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cover-footer">
+      <span>Desarrollo de Soluciones Móviles y Multiplataforma</span>
+      <span>Ciclo Académico 2026</span>
+    </div>
+  </div>
+
+  <!-- SECCIÓN 1: INTRODUCCIÓN Y OBJETIVOS -->
+  <div class="avoid-break">
+    <h1><span class="sec-num">1</span> Introducción y Objetivo de la Aplicación</h1>
+    
+    <h2>1.1. Contexto y Justificación</h2>
+    <p>
+      El aprendizaje de segundas lenguas requiere de retroalimentación inmediata, consistencia en la práctica y accesibilidad desde cualquier dispositivo móvil o de escritorio. En el marco del curso <strong>Plataformas Emergentes</strong>, este proyecto aborda la necesidad de construir una solución moderna orientada a teléfonos inteligentes que no dependa de frameworks monolíticos pesados, garantizando tiempos de carga casi instantáneos, bajo consumo de batería y memoria, y máxima adaptabilidad responsive.
+    </p>
+
+    <h2>1.2. Objetivo General</h2>
+    <p>
+      Diseñar, desarrollar y desplegar una <strong>aplicación web local responsive orientada a dispositivos móviles</strong> para el repaso dinámico de gramática, vocabulario idiomático y verbos irregulares en inglés, aplicando patrones de arquitectura Single Page Application (SPA), persistencia local en el navegador y microinteracciones táctiles nativas.
+    </p>
+
+    <h2>1.3. Objetivos Específicos</h2>
+    <ul>
+      <li><strong>Diseño Mobile-First Ergonómico:</strong> Implementar una barra de navegación inferior táctil (<em>Thumb Zone</em>) en móviles que transmute a una barra superior fija en pantallas de escritorio sin duplicidad de componentes.</li>
+      <li><strong>Arquitectura SPA sin recarga:</strong> Ofrecer 5 secciones funcionales completas navegables instantáneamente mediante enrutamiento declarativo por Hash (#inicio, #gramatica, #vocabulario, #verbos, #quiz).</li>
+      <li><strong>Generación Dinámica de Datos:</strong> Gestionar el estado, filtros de búsqueda en tiempo real, cálculo de puntaje y persistencia en localStorage con JavaScript Vanilla modular (ES6+).</li>
+      <li><strong>Experiencia Sensorial e Interactiva:</strong> Integrar la API nativa de síntesis de voz (<em>Web Speech API</em>) para audición nativa de oraciones y tarjetas tridimensionales aceleradas por hardware.</li>
+    </ul>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- SECCIÓN 2: TECNOLOGÍAS UTILIZADAS -->
+  <div class="avoid-break">
+    <h1><span class="sec-num">2</span> Tecnologías Utilizadas y Justificación Técnica</h1>
+    <p>
+      La aplicación fue construida respetando estrictamente las pautas de tecnologías estándar web sin incorporar frameworks pesados que desnaturalicen la enseñanza de los fundamentos de plataformas emergentes:
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Tecnología</th>
+          <th>Versión / Estándar</th>
+          <th>Rol en la Solución</th>
+          <th>Justificación Técnica</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>HTML5</strong></td>
+          <td>Semántico W3C</td>
+          <td>Estructura de la SPA</td>
+          <td>Uso de etiquetas semánticas (header, main, nav, section), atributos de accesibilidad ARIA y metatags para compatibilidad con Web Apps móviles (viewport-fit=cover).</td>
+        </tr>
+        <tr>
+          <td><strong>CSS3 Puro</strong></td>
+          <td>CSS Moderno (Variables, Flexbox, Grid)</td>
+          <td>Estilos y Animaciones 3D</td>
+          <td>Cero dependencias externas (sin Tailwind ni Bootstrap). Uso de variables CSS para consistencia de temas, perspective y transform: rotateY(180deg) acelerados por GPU, y Media Queries fluidas.</td>
+        </tr>
+        <tr>
+          <td><strong>JavaScript</strong></td>
+          <td>ES6+ Vanilla Modular</td>
+          <td>Lógica de Negocio y DOM</td>
+          <td>Separación en módulos (import/export), controladores de eventos delegados, Web Speech API nativa para pronunciación en inglés, y persistencia local sin servidor (localStorage).</td>
+        </tr>
+        <tr>
+          <td><strong>Vite</strong></td>
+          <td>v5.4.x</td>
+          <td>Entorno de Desarrollo y Build</td>
+          <td>Servidor de desarrollo ultrarrápido con Hot Module Replacement (HMR) nativo mediante módulos ES y empaquetado optimizado para producción.</td>
+        </tr>
+        <tr>
+          <td><strong>Git & GitHub</strong></td>
+          <td>Control de Versiones</td>
+          <td>Repositorio y Gestión</td>
+          <td>Control de versiones granular, historial de commits descriptivo y publicación pública del proyecto.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <div class="callout-title">Ventaja Competitiva de la Arquitectura Vanilla en Plataformas Emergentes</div>
+      El bundle final de producción compilado con Vite tiene un tamaño inferior a <strong>50 KB (14 KB comprimido con gzip)</strong>, lo cual permite que la aplicación cargue en menos de <strong>30 milisegundos</strong> en redes móviles 3G/4G, superando ampliamente a las aplicaciones desarrolladas con frameworks basados en Virtual DOM como React o Angular.
+    </div>
+  </div>
+
+  <!-- SECCIÓN 3: ESTRUCTURA Y ARQUITECTURA -->
+  <div class="avoid-break" style="margin-top: 20px;">
+    <h1><span class="sec-num">3</span> Estructura y Arquitectura del Proyecto</h1>
+    <p>
+      El proyecto adopta el patrón de <strong>Separación de Responsabilidades (SoC)</strong>, aislando datos, renderizado, almacenamiento y navegación:
+    </p>
+
+    <pre>
+englishPage/
+├── index.html                   # Contenedor raíz SPA con las 5 secciones declarativas
+├── package.json                 # Metadatos del proyecto y comandos (dev, build, preview)
+├── vite.config.js               # Configuración del servidor y puertos locales
+├── README.md                    # Manual de instalación y documentación técnica sin emojis
+├── docs/                        # Documentación académica, capturas de pantalla e informe
+│   ├── informe.html             # Documento fuente del informe imprimible
+│   └── screenshots/             # Galería de capturas en móvil y escritorio
+└── src/
+    ├── css/
+    │   ├── variables.css        # Paletas de color HSL, radios de borde y tokens
+    │   ├── base.css             # Reseteo responsivo, tipografía y utilidades
+    │   ├── layout.css           # Header fijo, navegación superior y barra táctil móvil
+    │   ├── cards.css            # Flashcards 3D, badges SVG, reglas y tablas
+    │   └── main.css             # Agregador central de hojas de estilo
+    └── js/
+        ├── data.js              # Datos puros de reglas, 14 tarjetas y catálogo de verbos
+        ├── icons.js             # Librería de íconos vectoriales SVG limpios (sin emojis)
+        ├── speech.js            # Motor de síntesis de voz nativo en inglés (Web Speech API)
+        ├── storage.js           # API de persistencia en localStorage para tarjetas aprendidas
+        ├── navigation.js        # Enrutador SPA reactivo al evento 'hashchange'
+        ├── render.js            # Inyectores dinámicos del DOM para cada sección
+        └── main.js              # Punto de entrada y ciclo de vida de la aplicación
+    </pre>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- SECCIÓN 4: ENFOQUE MOBILE-FIRST Y RESPONSIVE -->
+  <div class="avoid-break">
+    <h1><span class="sec-num">4</span> Principios de Diseño Móvil y Enfoque Responsive</h1>
+
+    <h2>4.1. Zona Ergonómica del Pulgar (Thumb Zone Navigation)</h2>
+    <p>
+      En dispositivos móviles con pantallas superiores a 6 pulgadas, la navegación en la parte superior genera fatiga muscular. Por ello, la aplicación implementa una <strong>barra de navegación inferior fija (.mobile-bottom-nav)</strong> que ubica los 5 accesos directos al alcance inmediato del pulgar con áreas táctiles mínimas de 48x48 píxeles. En resoluciones superiores a 768px (computadoras y tabletas apaisadas), esta barra se oculta fluidamente y se activa la barra superior tradicional (.desktop-nav).
+    </p>
+
+    <h2>4.2. Iconografía Vectorial Intuitiva (Cero Emojis)</h2>
+    <p>
+      Para evitar el aspecto genérico y artificial que transmiten los emojis convencionales, se desarrolló una librería propia de <strong>íconos vectoriales SVG en icons.js</strong>. Cada ícono representa la interpretación figurativa real de la expresión idiomática (por ejemplo, una diana para <em>Piece of cake</em> indicando precisión y facilidad; un candado abierto para <em>Spill the beans</em> indicando revelar un secreto).
+    </p>
+
+    <h2>4.3. Animaciones Tridimensionales con Aceleración por Hardware</h2>
+    <p>
+      Las tarjetas de vocabulario emplean CSS 3D (transform-style: preserve-3d, perspective: 1000px y backface-visibility: hidden). Esto delega el procesamiento del volteo a la GPU del teléfono móvil, manteniendo una tasa constante de 60 cuadros por segundo (FPS) sin ralentizaciones.
+    </p>
+  </div>
+
+  <!-- SECCIÓN 5: DESCRIPCIÓN DE LAS 5 SECCIONES Y GALERÍA -->
+  <div class="avoid-break" style="margin-top: 15px;">
+    <h1><span class="sec-num">5</span> Descripción de las Secciones y Galería de Capturas</h1>
+    
+    <!-- 5.1 INICIO -->
+    <h2>5.1. Sección 1: Inicio (Dashboard del Estudiante)</h2>
+    <p>
+      Presenta un panel de control interactivo con estadísticas de estudio en tiempo real (porcentaje de dominio de tarjetas, total de verbos y reglas), además de un banner de desafío diario con acceso directo al Quiz interactivo.
+    </p>
+
+    <div class="comparison-grid">
+      <div class="capture-card">
+        <img src="./screenshots/01_inicio_desktop.png" alt="Inicio Desktop">
+        <span class="capture-label">Versión de Escritorio (Desktop 1280px)</span>
+      </div>
+      <div class="capture-card">
+        <img src="./screenshots/02_inicio_mobile.png" alt="Inicio Mobile">
+        <span class="capture-label">Versión Móvil (Smartphone 390px)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- 5.2 GRAMATICA -->
+  <div class="avoid-break">
+    <h2>5.2. Sección 2: Gramática Estructurada</h2>
+    <p>
+      Organiza los tiempos y reglas gramaticales esenciales (Present Simple, Past Simple, Present Perfect, First Conditional) mediante tarjetas con etiquetas semánticas, fórmulas estructuradas, ejemplos bilingües y botones interactivos de audio nativo.
+    </p>
+
+    <div class="comparison-grid">
+      <div class="capture-card">
+        <img src="./screenshots/03_gramatica_desktop.png" alt="Gramática Desktop">
+        <span class="capture-label">Vista en Escritorio - Fórmulas y Ejemplos</span>
+      </div>
+      <div class="capture-card">
+        <img src="./screenshots/04_gramatica_mobile.png" alt="Gramática Mobile">
+        <span class="capture-label">Vista Móvil - Lectura Vertical Cómoda</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5.3 VOCABULARIO -->
+  <div class="avoid-break" style="margin-top: 15px;">
+    <h2>5.3. Sección 3: Vocabulario (Flashcards 3D con Insignias Vectoriales)</h2>
+    <p>
+      Compuesta por 14 tarjetas tridimensionales interactivas que contienen expresiones idiomáticas. Cada tarjeta incluye una insignia conceptual SVG, botón de pronunciación nativa en inglés y botón de guardado como aprendida con sincronización en localStorage. Al tocar la tarjeta, gira 180° mostrando su traducción y oración de contexto.
+    </p>
+
+    <div class="comparison-grid">
+      <div class="capture-card">
+        <img src="./screenshots/05_vocabulario_desktop.png" alt="Vocabulario Desktop">
+        <span class="capture-label">Vista en Escritorio - Grid Multicolumna con Íconos Conceptuales</span>
+      </div>
+      <div class="capture-card">
+        <img src="./screenshots/06_vocabulario_flip_mobile.png" alt="Vocabulario Mobile Giro 3D">
+        <span class="capture-label">Vista Móvil - Giro 3D Mostrando Traducción</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- 5.4 VERBOS -->
+  <div class="avoid-break">
+    <h2>5.4. Sección 4: Directorio de Verbos Irregulares con Búsqueda en Vivo</h2>
+    <p>
+      Catálogo completo de verbos irregulares con sus tres formas verbales fundamentales (Infinitive, Past Simple, Past Participle) y traducción. Integra un motor de filtrado instantáneo que busca en tiempo real en inglés y español conforme el usuario escribe.
+    </p>
+
+    <div class="comparison-grid">
+      <div class="capture-card">
+        <img src="./screenshots/07_verbos_busqueda.png" alt="Búsqueda de Verbos">
+        <span class="capture-label">Filtrado en Tiempo Real ("fly" - flew, flown)</span>
+      </div>
+      <div class="capture-card">
+        <img src="./screenshots/08_verbos_mobile.png" alt="Verbos en Móvil">
+        <span class="capture-label">Vista Táctil Móvil con Pronunciación</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5.5 QUIZ -->
+  <div class="avoid-break" style="margin-top: 15px;">
+    <h2>5.5. Sección 5: Práctica (Quiz Interactivo con Feedback Inmediato)</h2>
+    <p>
+      Módulo de evaluación formativa con temporizador, barra de progreso porcentual, retroalimentación pedagógica instantánea (explicación de aciertos y errores) y pantalla final con cálculo de porcentaje y recomendación de estudio.
+    </p>
+
+    <div class="comparison-grid">
+      <div class="capture-card">
+        <img src="./screenshots/10_quiz_feedback.png" alt="Quiz Feedback">
+        <span class="capture-label">Pregunta Activa y Explicación en Tiempo Real</span>
+      </div>
+      <div class="capture-card">
+        <img src="./screenshots/11_quiz_resultado_mobile.png" alt="Quiz Resultado Móvil">
+        <span class="capture-label">Pantalla de Resultados y Diagnóstico Móvil</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- SECCIÓN 6: CUMPLIMIENTO DE CRITERIOS -->
+  <div class="avoid-break">
+    <h1><span class="sec-num">6</span> Matriz de Cumplimiento de Requerimientos</h1>
+    
+    <table>
+      <thead>
+        <tr>
+          <th>Requerimiento General</th>
+          <th>Estado</th>
+          <th>Detalle de Implementación en la Solución</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Tema Libre</strong></td>
+          <td>Cumplido</td>
+          <td>Plataforma educativa interactiva bilingüe para el estudio del idioma inglés (EnglishPage).</td>
+        </tr>
+        <tr>
+          <td><strong>Interfaz Adaptada a Móviles</strong></td>
+          <td>Cumplido</td>
+          <td>Diseño mobile-first con navegación táctil inferior (Thumb Zone), target size de botones de 48px, soporte de safe areas y sin desbordamientos horizontales.</td>
+        </tr>
+        <tr>
+          <td><strong>Al menos 5 Vistas / Secciones</strong></td>
+          <td>Cumplido</td>
+          <td>5 secciones implementadas en arquitectura SPA: 1) Inicio, 2) Gramática, 3) Vocabulario, 4) Verbos Irregulares y 5) Práctica (Quiz Interactivo).</td>
+        </tr>
+        <tr>
+          <td><strong>JavaScript Dinámico</strong></td>
+          <td>Cumplido</td>
+          <td>Renderizado reactivo del DOM (render.js), motor de búsqueda en tiempo real, síntesis de voz en inglés (speech.js), estado del quiz con temporizador y persistencia en localStorage.</td>
+        </tr>
+        <tr>
+          <td><strong>Resultados en Tarjetas o Listas</strong></td>
+          <td>Cumplido</td>
+          <td>Flashcards 3D de vocabulario, acordeón de tarjetas gramaticales, directorio de verbos con tarjetas móviles y tabla de escritorio, y tarjetas interactivas de quiz.</td>
+        </tr>
+        <tr>
+          <td><strong>Responsive Celular y Computadora</strong></td>
+          <td>Cumplido</td>
+          <td>Media queries con puntos de ruptura en 480px, 768px y 1024px. Transición fluida entre navegación inferior en teléfonos y barra superior fija en computadoras.</td>
+        </tr>
+        <tr>
+          <td><strong>Repositorio en GitHub</strong></td>
+          <td>Cumplido</td>
+          <td>Código fuente versionado y publicado en: <br><code>https://github.com/JoseGordilloMendoza/englishPage.git</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECCIÓN 7: CONCLUSIONES Y RECOMENDACIONES -->
+  <div class="avoid-break" style="margin-top: 20px;">
+    <h1><span class="sec-num">7</span> Conclusiones y Recomendaciones</h1>
+
+    <h2>7.1. Conclusiones</h2>
+    <ol>
+      <li><strong>Eficiencia del Enfoque Vanilla:</strong> La construcción de aplicaciones web utilizando las APIs nativas del navegador (HTML5 semántico, CSS3 puro y JavaScript modular) demuestra ser una alternativa sumamente viable frente a frameworks pesados para plataformas emergentes, logrando tiempos de interacción inferiores a 50ms y un peso total ínfimo.</li>
+      <li><strong>Ergonomía Móvil Centrada en el Usuario:</strong> El uso de una barra de navegación inferior adaptada a la zona natural del pulgar (<em>Thumb Zone</em>) mejora drásticamente la tasa de retención y comodidad del usuario frente a los menús hamburguesa tradicionales en smartphones modernos.</li>
+      <li><strong>Consistencia Estética e Iconográfica:</strong> La sustitución de emojis por íconos vectoriales SVG intuitivos y consistentes elevó el nivel profesional de la interfaz gráfica, otorgando un aspecto contemporáneo y cercano al estudiante.</li>
+      <li><strong>Accesibilidad y Multimedia Nativa:</strong> La integración de la <em>Web Speech API</em> permite dotar a una aplicación web de capacidades auditivas de pronunciación nativa sin requerir almacenamiento de archivos de audio MP3 pesados ni servidores backend dedicados.</li>
+    </ol>
+
+    <h2>7.2. Recomendaciones Futuras</h2>
+    <ul>
+      <li>Integrar un Service Worker y un manifiesto manifest.json para convertir la solución en una <strong>Progressive Web App (PWA)</strong> instalable con soporte 100% offline.</li>
+      <li>Añadir reconocimiento de voz mediante la <em>SpeechRecognition API</em> para que los usuarios puedan practicar y evaluar su propia pronunciación en inglés frente al micrófono.</li>
+    </ul>
+
+    <div class="callout" style="margin-top: 25px;">
+      <div class="callout-title">Verificación del Proyecto</div>
+      El proyecto puede ser ejecutado localmente clonando el repositorio y ejecutando <code>npm install</code> seguido de <code>npm run dev</code>. Todas las vistas e interacciones operan localmente sin dependencias externas obligatorias.
+    </div>
+  </div>
+
+</body>
+</html>

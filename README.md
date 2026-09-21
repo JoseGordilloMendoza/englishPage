@@ -1,95 +1,112 @@
-# EnglishPage 🇬🇧 - Aplicación Web Móvil e Interactiva de Repaso
+# EnglishPage - Aplicacion Web Movil e Interactiva de Repaso
 
-Una aplicación web Single Page Application (SPA) orientada a dispositivos móviles, diseñada para el estudio y repaso de conceptos clave del idioma inglés (gramática, vocabulario y verbos irregulares).
+Una aplicacion web Single Page Application (SPA) orientada a dispositivos moviles y de escritorio, desarrollada para el aprendizaje activo y repaso de conceptos clave del idioma ingles (gramatica estructurada, expresiones idiomaticas en flashcards 3D, directorio de verbos irregulares y quiz interactivo).
 
-Construida íntegramente con **HTML5 semántico, CSS3 puro con animaciones 3D y Vanilla JavaScript modular (ES6+)**, utilizando **Vite** como entorno de desarrollo ligero.
+Proyecto academico para el curso de **Plataformas Emergentes**.
 
----
-
-## 🌟 Características Principales
-
-1. **Arquitectura SPA sin frameworks**:
-   - Transiciones instantáneas entre las 5 vistas (`#inicio`, `#gramatica`, `#vocabulario`, `#verbos`, `#acerca-de`) sin recargar el navegador.
-2. **Flashcards 3D de Vocabulario**:
-   - Tarjetas interactivas con giro de 180° (`transform: rotateY(180deg)` y `perspective: 1000px`) que revelan la traducción en español y ejemplos prácticos.
-3. **Pronunciación con Web Speech API Nativa**:
-   - Cada tarjeta de vocabulario, ejemplo gramatical y verbo irregular cuenta con un botón de altavoz (🔊) que reproduce la pronunciación nativa en inglés.
-4. **Buscador en Tiempo Real de Verbos Irregulares**:
-   - Directorio completo con las 3 formas verbales (*Infinitive*, *Past Simple*, *Past Participle*) y traducción, filtrable al instante mientras se escribe.
-5. **Persistencia Local (`localStorage`)**:
-   - Permite marcar tarjetas de vocabulario como aprendidas (★) y visualiza el progreso global en la pantalla de Inicio.
-6. **Enfoque Mobile-First**:
-   - Menú hamburguesa desplegable accesible y barra de navegación táctil inferior en teléfonos móviles, adaptándose fluidamente a múltiples columnas en tabletas y computadoras.
+Repositorio GitHub: [https://github.com/JoseGordilloMendoza/englishPage.git](https://github.com/JoseGordilloMendoza/englishPage.git)
 
 ---
 
-## 📂 Estructura del Proyecto
+## Caracteristicas Principales
+
+1. **Arquitectura Single Page Application (SPA) sin Frameworks Pesados**:
+   - Enrutamiento por hash instantaneo (`#inicio`, `#gramatica`, `#vocabulario`, `#verbos`, `#quiz`) que alterna las 5 vistas en el DOM sin recargar el navegador.
+2. **Enfoque Mobile-First y Responsive Multiplataforma**:
+   - Barra de navegacion inferior ergonomica para la zona del pulgar (*Thumb Zone*) en telefonos inteligentes, que conmuta fluidamente a una barra superior fija en computadoras y tabletas.
+3. **Flashcards 3D de Vocabulario con Iconografia Vectorial**:
+   - Tarjetas interactivas con giro de 180 grados mediante aceleracion por hardware (`transform-style: preserve-3d`, `perspective: 1000px`), insignias conceptuales SVG limpias (sin emojis) y guardado de estado aprendido.
+4. **Pronunciacion Nativa con Web Speech API**:
+   - Reproduccion de voz nativa en ingles sin archivos de audio externos, empleando la API estandar del navegador con seleccion de voces en-US y en-GB.
+5. **Directorio de Verbos Irregulares con Filtrado en Tiempo Real**:
+   - Busqueda instantanea por infinitivo, pasado, participio o significado en espanol conforme el usuario escribe.
+6. **Modulo de Practica (Quiz Interactivo)**:
+   - Evaluacion formativa con temporizador, retroalimentacion pedagogica inmediata, calculo de puntaje y opcion de reintento.
+7. **Persistencia Local (`localStorage`)**:
+   - Registro permanente de tarjetas aprendidas y progreso del estudiante en el dispositivo sin necesidad de bases de datos remotas.
+
+---
+
+## Estructura del Proyecto
 
 ```text
 englishPage/
-├── index.html                   # Documento semántico con las 5 secciones SPA
-├── package.json                 # Configuración de Vite y scripts de ejecución
-├── vite.config.js               # Configuración del servidor de desarrollo
-├── .gitignore                   # Exclusión de node_modules y dist
-├── README.md                    # Documentación del proyecto
-└── src/
-    ├── css/
-    │   ├── variables.css        # Paleta de colores, sombras y tokens visuales
-    │   ├── base.css             # Reseteo CSS, tipografía Google Fonts y botones
-    │   ├── layout.css           # Header, navegación responsive, drawer y transiciones
-    │   ├── cards.css            # Flashcards 3D, tarjetas de gramática y lista de verbos
-    │   └── main.css             # Agregador principal de estilos
-    └── js/
-        ├── data.js              # Base de datos local (reglas, flashcards y verbos)
-        ├── speech.js            # Utilidad de pronunciación nativa (Web Speech API)
-        ├── storage.js           # Manejo de persistencia local (localStorage)
-        ├── render.js            # Inyección dinámica en el DOM de las 5 vistas
-        ├── navigation.js        # Enrutador SPA por hash y menú móvil hamburguesa
-        └── main.js              # Punto de entrada principal
+|-- index.html                   # Contenedor raiz semantico con las 5 vistas SPA
+|-- package.json                 # Metadatos del proyecto y scripts de ejecucion
+|-- vite.config.js               # Configuracion del entorno de desarrollo Vite
+|-- README.md                    # Documentacion y guia de despliegue
+|-- informe_proyecto_englishpage.pdf # Informe academico formal con capturas
+|-- docs/
+|   |-- informe.html             # Documento fuente imprimible del informe
+|   `-- screenshots/             # Capturas de pantalla en dispositivos moviles y desktop
+`-- src/
+    |-- css/
+    |   |-- variables.css        # Tokens de color HSL, sombras y radios
+    |   |-- base.css             # Reseteo responsivo, tipografia y botones
+    |   |-- layout.css           # Header, navegacion desktop y barra inferior movil
+    |   |-- cards.css            # Flashcards 3D, insignias SVG y tablas adaptativas
+    |   `-- main.css             # Importador principal de estilos
+    `-- js/
+        |-- data.js              # Datos de reglas, vocabulario, verbos y quiz
+        |-- icons.js             # Libreria de iconos vectoriales SVG consistentes
+        |-- speech.js            # Motor de pronunciacion nativa en ingles
+        |-- storage.js           # Gestion de persistencia en localStorage
+        |-- navigation.js        # Enrutador reactivo por hash
+        |-- render.js            # Inyeccion dinamica en el DOM para cada vista
+        `-- main.js              # Punto de entrada de la aplicacion
 ```
 
 ---
 
-## 🚀 Requisitos y Ejecución Local
+## Requisitos y Ejecucion Local
 
 ### Prerrequisitos
-- Tener instalado [Node.js](https://nodejs.org/) (versión 16 o superior).
+- [Node.js](https://nodejs.org/) (version 18 o superior recomendada).
+- Navegador web moderno (Chrome, Edge, Firefox, Safari).
 
-### Pasos para iniciar el entorno de desarrollo:
+### Pasos para ejecutar el proyecto:
 
-1. Clonar el repositorio:
+1. **Clonar el repositorio:**
    ```bash
-   git clone <URL_DEL_REPOSITORIO>
+   git clone https://github.com/JoseGordilloMendoza/englishPage.git
    cd englishPage
    ```
 
-2. Instalar dependencias:
+2. **Instalar dependencias:**
    ```bash
    npm install
    ```
 
-3. Iniciar el servidor local:
+3. **Iniciar el servidor de desarrollo:**
    ```bash
    npm run dev
    ```
-   Abre tu navegador en `http://localhost:3000` para interactuar con la aplicación.
+   Abre tu navegador en la URL indicada en la consola (por ejemplo, `http://localhost:3001` o `http://localhost:5173`).
 
-4. Compilar para producción:
+4. **Compilar para produccion:**
    ```bash
    npm run build
    ```
+   Genera la version optimizada y minificada en la carpeta `dist/`.
 
 ---
 
-## 📋 Mapeo de Requerimientos Cumplidos
+## Matriz de Cumplimiento de Requerimientos
 
-| Código | Requerimiento | Implementación |
+| Requerimiento | Estado | Implementacion |
 | :--- | :--- | :--- |
-| **RF-01** | Navegación de Vistas | Enrutador SPA por Hash (`navigation.js`) que alterna las 5 vistas sin recargar. |
-| **RF-02** | Renderizado Dinámico Vocabulario | Lectura de `data.js` e inyección en el DOM de flashcards interactivas (`render.js`). |
-| **RF-03** | Renderizado de Listas | Generación dinámica de reglas gramaticales y catálogo de verbos irregulares. |
-| **RF-04** | Interacción de Tarjetas (Flip) | Animación 3D con `perspective` y `transform: rotateY(180deg)` al hacer clic o tocar. |
-| **RF-05** | Menú Móvil Desplegable | Menú hamburguesa interactivo con transición animada y cierre táctil. |
-| **RNF-01** | Responsive Mobile First | Grid adaptable: 1 columna en celular y expansión a 2-3 columnas en escritorio. |
-| **RNF-02** | Rendimiento y Ligereza | Cero frameworks CSS y cero librerías JS externas. 100% nativo. |
-| **RNF-03** | Modularidad del Código | Aislamiento estricto de datos en `data.js` separado de la lógica de renderizado. |
+| **Tema Libre** | Cumplido | Aplicacion educativa para repaso de ingles (EnglishPage). |
+| **Interfaz Movil Responsive** | Cumplido | Diseno *mobile-first*, barra inferior táctil, botones de 48px, adaptable a PC y smartphones. |
+| **Al menos 5 Vistas / Secciones** | Cumplido | 1) Inicio, 2) Gramatica, 3) Vocabulario, 4) Verbos, 5) Practica Quiz. |
+| **JavaScript Dinamico** | Cumplido | Renderizado del DOM, filtrado de verbos en vivo, sintesis de voz, estado de quiz y localStorage. |
+| **Tarjetas o Listas** | Cumplido | Flashcards 3D, acordeon de reglas gramaticales, tarjetas moviles y tabla de verbos. |
+| **Responsive Celular y PC** | Cumplido | Media queries fluidas (480px, 768px, 1024px) con navegacion condicional desktop/movil. |
+| **Publicado en GitHub** | Cumplido | Codigo fuente versionado y disponible en el repositorio oficial. |
+
+---
+
+## Informacion del Autor
+
+- **Estudiante**: Jose Gordillo Mendoza
+- **Curso**: Plataformas Emergentes
+- **Ano**: 2026
