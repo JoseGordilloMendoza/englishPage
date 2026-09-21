@@ -460,8 +460,6 @@ export function renderVerbs() {
   });
 }
 
-/**
- * Renderiza la vista de Acerca de con especificaciones técnicas y créditos.
 // ==========================================================================
 // ESTADO Y LÓGICA DEL DESAFÍO / QUIZ INTERACTIVO
 // ==========================================================================
