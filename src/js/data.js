@@ -288,7 +288,7 @@ export const quizQuestions = [
       'drawing'
     ],
     answer: 2,
-    explanation: 'Las formas de este verbo son: draw (infinitivo) ➔ drew (pasado) ➔ drawn (participio pasado).'
+    explanation: 'Las formas de este verbo son: draw (infinitivo) → drew (pasado) → drawn (participio pasado).'
   },
   {
     id: 'q6',

@@ -35,7 +35,7 @@ function initApp() {
   try { renderVerbs(); } catch (e) { console.error('Error en renderVerbs:', e); }
   try { renderQuiz(); } catch (e) { console.error('Error en renderQuiz:', e); }
 
-  console.log('✨ EnglishPage SPA inicializada correctamente.');
+  console.log('[EnglishPage] SPA inicializada correctamente.');
 }
 
 // Garantizar ejecución inmediata si el DOM ya está listo (evita bloqueos tras recargas de Vite)

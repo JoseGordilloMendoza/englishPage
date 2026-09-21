@@ -1,12 +1,14 @@
 /**
  * EnglishPage - DOM Rendering Engine
- * Genera e inyecta dinámicamente el contenido de las vistas del sistema.
+ * Genera e inyecta dinámicamente el contenido de las vistas del sistema,
+ * utilizando íconos vectoriales SVG limpios y consistentes en lugar de emojis.
  */
 
 import { grammarRules, flashcardsVocab, verbList, quizQuestions } from './data.js';
 import { speakText } from './speech.js';
 import { isCardMastered, toggleCardMastered, getStudyStats } from './storage.js';
 import { navigateToView } from './navigation.js';
+import { icons } from './icons.js';
 
 let currentVocabFilter = 'all'; // 'all' | 'pending' | 'mastered'
 let currentVerbSearch = '';
@@ -26,17 +28,17 @@ export function renderDashboard() {
   container.innerHTML = `
     <!-- Hero Banner -->
     <div class="dashboard-hero">
-      <div class="hero-badge">🚀 Tu tutor móvil de inglés</div>
+      <div class="hero-badge">${icons.sparkles()} Práctica diaria y repaso activo</div>
       <h1 class="hero-title">Domina el inglés paso a paso</h1>
       <p class="hero-subtitle">
         Repasa reglas gramaticales clave, practica con flashcards interactivas en 3D y consulta el catálogo de verbos irregulares.
       </p>
       <div class="hero-actions">
         <button class="btn btn-primary" id="btn-start-vocab">
-          <span>🃏 Practicar Flashcards</span>
+          <span>${icons.vocab()} Practicar Vocabulario</span>
         </button>
         <button class="btn btn-secondary" id="btn-start-quiz">
-          <span>🎯 Desafío Quiz</span>
+          <span>${icons.quiz()} Desafío de Práctica</span>
         </button>
       </div>
     </div>
@@ -45,33 +47,33 @@ export function renderDashboard() {
     <div class="stats-grid">
       <div class="stat-card" data-target="vocabulario">
         <div class="stat-icon-wrapper bg-indigo">
-          <span class="stat-icon">🃏</span>
+          <span class="stat-icon">${icons.vocab()}</span>
         </div>
         <div class="stat-info">
           <span class="stat-value">${stats.totalVocab}</span>
-          <span class="stat-label">Flashcards</span>
+          <span class="stat-label">Tarjetas de Vocabulario</span>
         </div>
         <div class="stat-badge">${stats.masteredCount} dominadas</div>
       </div>
 
       <div class="stat-card" data-target="verbos">
         <div class="stat-icon-wrapper bg-emerald">
-          <span class="stat-icon">⚡</span>
+          <span class="stat-icon">${icons.verbs()}</span>
         </div>
         <div class="stat-info">
           <span class="stat-value">${stats.totalVerbs}</span>
           <span class="stat-label">Verbos Irregulares</span>
         </div>
-        <div class="stat-badge">Con audio 🔊</div>
+        <div class="stat-badge">${icons.volume()} Pronunciación</div>
       </div>
 
       <div class="stat-card" data-target="gramatica">
         <div class="stat-icon-wrapper bg-amber">
-          <span class="stat-icon">📚</span>
+          <span class="stat-icon">${icons.grammar()}</span>
         </div>
         <div class="stat-info">
           <span class="stat-value">${stats.totalGrammar}</span>
-          <span class="stat-label">Temas Clave</span>
+          <span class="stat-label">Temas Estructurales</span>
         </div>
         <div class="stat-badge">B1 & B2</div>
       </div>
@@ -87,23 +89,23 @@ export function renderDashboard() {
         <div class="progress-bar-fill" style="width: ${stats.progressPercent}%"></div>
       </div>
       <p class="progress-caption">
-        ${stats.masteredCount} de ${stats.totalVocab} tarjetas marcadas como dominadas. ¡Sigue así!
+        ${stats.masteredCount} de ${stats.totalVocab} tarjetas marcadas como dominadas. ¡Continúa con tu ritmo de estudio!
       </p>
     </div>
 
     <!-- Frase del Día -->
     <div class="daily-phrase card-box">
       <div class="daily-phrase-header">
-        <span class="badge-tag">💡 Expresión Recomendada</span>
-        <button class="btn-icon" id="btn-daily-audio" aria-label="Escuchar pronunciación">
-          🔊
+        <span class="badge-tag">${icons.lightbulb()} Expresión de hoy</span>
+        <button class="btn-icon" id="btn-daily-audio" aria-label="Escuchar pronunciación" title="Escuchar pronunciación">
+          ${icons.volume()}
         </button>
       </div>
       <h3 class="daily-phrase-en">${randomCard.en}</h3>
       <p class="daily-phrase-phonetic">${randomCard.phonetic}</p>
       <p class="daily-phrase-es">"${randomCard.es}"</p>
       <div class="daily-phrase-example">
-        <span class="example-label">Ejemplo:</span>
+        <span class="example-label">Ejemplo en contexto:</span>
         <span class="example-text">"${randomCard.example}"</span>
       </div>
     </div>
@@ -133,7 +135,7 @@ export function renderGrammar() {
   const cardsHtml = grammarRules.map((item, index) => `
     <article class="grammar-card">
       <div class="grammar-card-header">
-        <div class="grammar-number">0${index + 1}</div>
+        <div class="grammar-number">${String(index + 1).padStart(2, '0')}</div>
         <div class="grammar-title-group">
           <span class="level-badge">${item.level}</span>
           <h2 class="grammar-topic">${item.topic}</h2>
@@ -142,7 +144,7 @@ export function renderGrammar() {
 
       <div class="grammar-body">
         <div class="grammar-rule-block">
-          <span class="rule-icon">📌</span>
+          <span class="rule-icon">${icons.bookmark()}</span>
           <p class="grammar-rule-text">${item.rule}</p>
         </div>
 
@@ -153,9 +155,9 @@ export function renderGrammar() {
 
         <div class="grammar-example-box">
           <div class="example-header">
-            <span class="example-tag">Ejemplo práctico</span>
-            <button class="btn-icon btn-sm btn-grammar-audio" data-speech="${item.example.split('(')[0].trim()}" aria-label="Escuchar ejemplo">
-              🔊
+            <span class="example-tag">Ejemplo de uso</span>
+            <button class="btn-icon btn-sm btn-grammar-audio" data-speech="${item.example.split('(')[0].trim()}" aria-label="Escuchar ejemplo" title="Escuchar ejemplo">
+              ${icons.volume()}
             </button>
           </div>
           <p class="grammar-example-text">${item.example}</p>
@@ -168,7 +170,7 @@ export function renderGrammar() {
     <div class="section-intro">
       <h1 class="section-title">Reglas Gramaticales Estructurales</h1>
       <p class="section-description">
-        Repasa las estructuras más desafiantes y comunes del inglés en niveles intermedios y avanzados.
+        Repasa las estructuras más importantes y comunes del inglés en niveles intermedios y avanzados.
       </p>
     </div>
     <div class="grammar-list">
@@ -213,11 +215,11 @@ export function renderVocabulary() {
                 <div class="card-top-bar">
                   <span class="category-pill">${card.category}</span>
                   <div class="card-actions">
-                    <button class="btn-icon btn-card-audio" data-speech="${card.en}" aria-label="Escuchar pronunciación" title="Escuchar">
-                      🔊
+                    <button class="btn-icon btn-card-audio" data-speech="${card.en}" aria-label="Escuchar pronunciación" title="Escuchar pronunciación">
+                      ${icons.volume()}
                     </button>
                     <button class="btn-icon btn-card-master ${mastered ? 'active' : ''}" data-card-id="${card.id}" aria-label="Marcar como aprendida" title="Marcar como aprendida">
-                      ${mastered ? '★' : '☆'}
+                      ${icons.star('', mastered)}
                     </button>
                   </div>
                 </div>
@@ -228,7 +230,7 @@ export function renderVocabulary() {
                 </div>
 
                 <div class="card-bottom">
-                  <span class="flip-hint">👆 Toca para ver traducción</span>
+                  <span class="flip-hint">${icons.flip()} Toca para ver traducción</span>
                 </div>
               </div>
 
@@ -237,7 +239,7 @@ export function renderVocabulary() {
                 <div class="card-top-bar">
                   <span class="meaning-pill">Traducción</span>
                   <button class="btn-icon btn-card-audio" data-speech="${card.example}" aria-label="Escuchar ejemplo en inglés" title="Escuchar ejemplo">
-                    🔊
+                    ${icons.volume()}
                   </button>
                 </div>
 
@@ -249,7 +251,7 @@ export function renderVocabulary() {
                 </div>
 
                 <div class="card-bottom">
-                  <span class="flip-hint">👆 Toca para volver</span>
+                  <span class="flip-hint">${icons.flip()} Toca para volver</span>
                 </div>
               </div>
 
@@ -259,16 +261,16 @@ export function renderVocabulary() {
       }).join('')
     : `
       <div class="empty-state">
-        <span class="empty-icon">📂</span>
-        <p class="empty-text">No hay tarjetas en este filtro.</p>
+        <span class="empty-icon">${icons.vocab()}</span>
+        <p class="empty-text">No hay tarjetas en esta categoría.</p>
       </div>
     `;
 
   container.innerHTML = `
     <div class="section-intro">
-      <h1 class="section-title">Flashcards 3D de Vocabulario</h1>
+      <h1 class="section-title">Vocabulario y Expresiones Comunes</h1>
       <p class="section-description">
-        Toca cualquier tarjeta para girarla y descubrir su traducción y ejemplo. Presiona 🔊 para escucharla o ☆ para marcarla como dominada.
+        Toca cualquier tarjeta para girarla y descubrir su traducción y ejemplo contextual. Escucha la pronunciación nativa o guárdala como aprendida.
       </p>
 
       <!-- Barra de Filtros -->
@@ -277,7 +279,7 @@ export function renderVocabulary() {
           Todas (${flashcardsVocab.length})
         </button>
         <button class="filter-pill ${currentVocabFilter === 'pending' ? 'active' : ''}" data-filter="pending">
-          Pendientes
+          Por repasar
         </button>
         <button class="filter-pill ${currentVocabFilter === 'mastered' ? 'active' : ''}" data-filter="mastered">
           Dominadas
@@ -303,7 +305,6 @@ export function renderVocabulary() {
   // Asignar interacción de giro 3D (Flip Card)
   container.querySelectorAll('.flashcard-inner').forEach(card => {
     const toggleFlip = (e) => {
-      // Si el clic fue en un botón de acción (audio o favorito), no voltear la tarjeta
       if (e.target.closest('.btn-icon')) return;
       card.classList.toggle('flipped');
     };
@@ -367,12 +368,12 @@ export function renderVerbs() {
                 <span class="verb-col-label">Infinitive</span>
                 <strong class="verb-word-inf">${v.inf}</strong>
               </div>
-              <div class="verb-arrow">➔</div>
+              <div class="verb-arrow">${icons.arrowRight()}</div>
               <div class="verb-form-item">
                 <span class="verb-col-label">Past Simple</span>
                 <span class="verb-word-past">${v.past}</span>
               </div>
-              <div class="verb-arrow">➔</div>
+              <div class="verb-arrow">${icons.arrowRight()}</div>
               <div class="verb-form-item">
                 <span class="verb-col-label">Past Participle</span>
                 <span class="verb-word-part">${v.part}</span>
@@ -380,8 +381,8 @@ export function renderVerbs() {
             </div>
 
             <div class="verb-actions">
-              <button class="btn-icon btn-verb-audio" data-speech="${v.inf}, ${v.past}, ${v.part}" aria-label="Escuchar pronunciación de ${v.inf}">
-                🔊
+              <button class="btn-icon btn-verb-audio" data-speech="${v.inf}, ${v.past}, ${v.part}" aria-label="Escuchar pronunciación de ${v.inf}" title="Escuchar pronunciación">
+                ${icons.volume()}
               </button>
             </div>
           </div>
@@ -394,7 +395,7 @@ export function renderVerbs() {
       `).join('')
     : `
       <div class="empty-state">
-        <span class="empty-icon">🔍</span>
+        <span class="empty-icon">${icons.search()}</span>
         <p class="empty-text">No se encontraron verbos para "<strong>${escapeHtml(currentVerbSearch)}</strong>".</p>
       </div>
     `;
@@ -408,7 +409,7 @@ export function renderVerbs() {
 
       <!-- Barra de Búsqueda -->
       <div class="search-box">
-        <span class="search-icon">🔎</span>
+        <span class="search-icon">${icons.search()}</span>
         <input 
           type="search" 
           id="verb-search-input" 
@@ -417,7 +418,7 @@ export function renderVerbs() {
           value="${escapeHtml(currentVerbSearch)}"
           aria-label="Buscar verbo irregular"
         />
-        ${currentVerbSearch ? `<button class="btn-clear-search" id="btn-clear-search" aria-label="Limpiar búsqueda">✕</button>` : ''}
+        ${currentVerbSearch ? `<button class="btn-clear-search" id="btn-clear-search" aria-label="Limpiar búsqueda" title="Limpiar">${icons.close()}</button>` : ''}
       </div>
       <div class="search-counter">
         Mostrando ${filteredVerbs.length} de ${verbList.length} verbos
@@ -434,7 +435,6 @@ export function renderVerbs() {
   const searchInput = document.getElementById('verb-search-input');
   if (searchInput) {
     searchInput.focus();
-    // Mover cursor al final si ya tenía texto
     if (searchInput.value) {
       searchInput.selectionStart = searchInput.selectionEnd = searchInput.value.length;
     }
@@ -487,7 +487,6 @@ export function renderQuiz() {
   const container = document.getElementById('quiz-content');
   if (!container) return;
 
-  // Si aún no hay preguntas seleccionadas, inicializar la ronda
   if (quizRoundQuestions.length === 0) {
     startNewQuiz();
   }
@@ -504,30 +503,30 @@ export function renderQuiz() {
     let badgeClass = 'bg-emerald';
 
     if (percentage === 100) {
-      feedback = '¡Extraordinario! Tienes un dominio impecable del vocabulario y la gramática.';
+      feedback = '¡Excelente desempeño! Tienes un dominio impecable del vocabulario y las estructuras repasadas.';
     } else if (percentage >= 70) {
-      feedback = '¡Muy buen trabajo! Tienes bases muy sólidas. ¡Sigue practicando para alcanzar la perfección!';
+      feedback = '¡Muy buen trabajo! Tienes bases muy sólidas. ¡Continúa practicando para perfeccionar los detalles!';
     } else {
-      feedback = '¡Buen esfuerzo! Te recomendamos repasar las flashcards 3D y la sección de verbos para reforzar.';
+      feedback = '¡Buen esfuerzo! Te recomendamos repasar las flashcards y el catálogo de verbos para reforzar tu memoria activa.';
       badgeClass = 'bg-amber';
     }
 
     quizMainHtml = `
       <div class="quiz-result-card card-box">
-        <div class="result-trophy">🏆</div>
+        <div class="result-trophy">${icons.trophy()}</div>
         <h2 class="result-title">¡Desafío Completado!</h2>
         <div class="result-score-badge ${badgeClass}">
           <span class="score-number">${quizScore} / ${total}</span>
-          <span class="score-percent">(${percentage}% de aciertos)</span>
+          <span class="score-percent">(${percentage}% de respuestas correctas)</span>
         </div>
         <p class="result-feedback">${feedback}</p>
 
         <div class="result-actions">
           <button class="btn btn-primary" id="btn-restart-quiz">
-            <span>🔄 Jugar Otro Desafío</span>
+            <span>${icons.refresh()} Intentar Otra Ronda</span>
           </button>
           <button class="btn btn-secondary" id="btn-go-vocab">
-            <span>🃏 Ir a Flashcards</span>
+            <span>${icons.vocab()} Repasar Vocabulario</span>
           </button>
         </div>
       </div>
@@ -556,8 +555,8 @@ export function renderQuiz() {
         <button class="${optClass}" data-opt-idx="${idx}" ${isAnswered ? 'disabled' : ''}>
           <span class="option-letter">${letters[idx]}</span>
           <span class="option-text">${escapeHtml(opt)}</span>
-          ${isAnswered && idx === q.answer ? '<span class="option-status-icon">✓</span>' : ''}
-          ${isAnswered && idx === selectedOptionIndex && idx !== q.answer ? '<span class="option-status-icon">✕</span>' : ''}
+          ${isAnswered && idx === q.answer ? `<span class="option-status-icon">${icons.check()}</span>` : ''}
+          ${isAnswered && idx === selectedOptionIndex && idx !== q.answer ? `<span class="option-status-icon">${icons.close()}</span>` : ''}
         </button>
       `;
     }).join('');
@@ -565,11 +564,13 @@ export function renderQuiz() {
     const explanationHtml = isAnswered ? `
       <div class="quiz-explanation-box">
         <div class="explanation-header">
-          <span class="explanation-icon">${selectedOptionIndex === q.answer ? '🎉 ¡Correcto!' : '💡 Explicación:'}</span>
+          <span class="explanation-icon">
+            ${selectedOptionIndex === q.answer ? icons.check() + ' Respuesta Correcta' : icons.lightbulb() + ' Explicación de la respuesta'}
+          </span>
         </div>
         <p class="explanation-text">${escapeHtml(q.explanation)}</p>
         <button class="btn btn-primary btn-next-question" id="btn-next-question">
-          <span>${questionNumber < totalQuestions ? 'Siguiente Pregunta ➔' : 'Ver Resultados Finales 🏆'}</span>
+          <span>${questionNumber < totalQuestions ? 'Siguiente Pregunta ' + icons.arrowRight() : 'Ver Resultados ' + icons.trophy()}</span>
         </button>
       </div>
     ` : '';
@@ -591,8 +592,8 @@ export function renderQuiz() {
 
         <div class="quiz-question-row">
           <h2 class="quiz-question-title">${escapeHtml(q.question)}</h2>
-          <button class="btn-icon btn-sm btn-quiz-speech" data-speech="${q.question}" aria-label="Escuchar pregunta" title="Escuchar">
-            🔊
+          <button class="btn-icon btn-sm btn-quiz-speech" data-speech="${q.question}" aria-label="Escuchar pregunta" title="Escuchar pregunta">
+            ${icons.volume()}
           </button>
         </div>
 
@@ -605,38 +606,38 @@ export function renderQuiz() {
     `;
   }
 
-  // Tips adicionales para estudiantes de inglés
+  // Consejos prácticos de estudio
   const tipsHtml = `
     <div class="tips-section">
       <div class="section-intro" style="margin-top: 36px; margin-bottom: 16px;">
-        <h2 class="section-title" style="font-size: 1.3rem;">💡 Tips de Fluidez & Errores Frecuentes</h2>
+        <h2 class="section-title" style="font-size: 1.3rem;">Consejos de Estudio y Errores Frecuentes</h2>
         <p class="section-description">
-          Acelera tu aprendizaje evitando los tropiezos más comunes de los hispanohablantes.
+          Acelera tu progreso evitando los tropiezos más habituales en la comunicación en inglés.
         </p>
       </div>
 
       <div class="tips-grid">
         <div class="tip-card card-box">
-          <div class="tip-icon">⚠️</div>
-          <h3 class="tip-title">False Friends (Falsos Amigos)</h3>
+          <div class="tip-icon" style="color: #ef4444;">${icons.alertCircle()}</div>
+          <h3 class="tip-title">Falsos Amigos (False Friends)</h3>
           <p class="tip-desc">
-            <strong>Actually</strong> no significa "actualmente", sino <em>"en realidad"</em> o <em>"de hecho"</em>. Para decir "actualmente", usa <strong>Currently</strong> o <strong>Nowadays</strong>.
+            <strong>Actually</strong> no significa "actualmente", sino <em>"en realidad"</em> o <em>"de hecho"</em>. Para referirte al presente, utiliza <strong>Currently</strong> o <strong>Nowadays</strong>.
           </p>
         </div>
 
         <div class="tip-card card-box">
-          <div class="tip-icon">🔄</div>
-          <h3 class="tip-title">Make vs. Do</h3>
+          <div class="tip-icon" style="color: var(--color-primary);">${icons.refresh()}</div>
+          <h3 class="tip-title">Diferencia entre Make y Do</h3>
           <p class="tip-desc">
-            Usa <strong>Make</strong> para crear o producir algo (<em>make coffee, make a decision</em>). Usa <strong>Do</strong> para acciones, tareas o rutinas (<em>do homework, do exercise</em>).
+            Usa <strong>Make</strong> al crear, construir o tomar decisiones (<em>make coffee, make a decision</em>). Usa <strong>Do</strong> para acciones generales y tareas (<em>do homework, do exercise</em>).
           </p>
         </div>
 
         <div class="tip-card card-box">
-          <div class="tip-icon">🎧</div>
-          <h3 class="tip-title">Técnica Shadowing</h3>
+          <div class="tip-icon" style="color: #059669;">${icons.headphones()}</div>
+          <h3 class="tip-title">Técnica de Shadowing</h3>
           <p class="tip-desc">
-            Toca el botón de audio 🔊 en las flashcards y repite inmediatamente la frase en voz alta imitando el ritmo, acento y entonación.
+            Pulsa el ícono de audio en las flashcards y repite en voz alta imitando la entonación y cadencia natural para entrenar tu fluidez auditiva y muscular.
           </p>
         </div>
       </div>
@@ -645,9 +646,9 @@ export function renderQuiz() {
 
   container.innerHTML = `
     <div class="section-intro">
-      <h1 class="section-title">Desafío Rápido de Inglés (Quick Quiz)</h1>
+      <h1 class="section-title">Desafío de Práctica Interactiva</h1>
       <p class="section-description">
-        Pon a prueba lo que has aprendido en vocabulario, verbos y gramática con este desafío interactivo.
+        Pon a prueba tu retención en vocabulario, verbos y gramática con preguntas rápidas y explicaciones claras.
       </p>
     </div>
 
