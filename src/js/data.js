@@ -77,7 +77,26 @@ export const flashcardsVocab = [
     es: 'Pan comido / Muy fácil',
     category: 'Idiom',
     example: 'The English exam was a piece of cake!',
-    phonetic: '/piːs əv keɪk/'
+    phonetic: '/piːs əv keɪk/',
+    image: '/images/card-piece-cake.jpg'
+  },
+  {
+    id: 'card-ice',
+    en: 'Break the ice',
+    es: 'Romper el hielo / Iniciar una conversación',
+    category: 'Idiom',
+    example: 'A friendly greeting helps to break the ice in any meeting.',
+    phonetic: '/breɪk ðiː aɪs/',
+    image: '/images/card-break-ice.jpg'
+  },
+  {
+    id: 'card-moon',
+    en: 'Over the moon',
+    es: 'Estar sumamente feliz / Radiante de alegría',
+    category: 'Idiom',
+    example: 'She was over the moon when she passed her English exam.',
+    phonetic: '/ˈoʊvər ðə muːn/',
+    image: '/images/card-over-moon.jpg'
   },
   {
     id: 'card-2',

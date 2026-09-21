@@ -26,20 +26,31 @@ export function renderDashboard() {
   const randomCard = flashcardsVocab[Math.floor(Math.random() * flashcardsVocab.length)];
 
   container.innerHTML = `
-    <!-- Hero Banner -->
+    <!-- Hero Banner con Ilustración 3D Amigable -->
     <div class="dashboard-hero">
-      <div class="hero-badge">${icons.sparkles()} Práctica diaria y repaso activo</div>
-      <h1 class="hero-title">Domina el inglés paso a paso</h1>
-      <p class="hero-subtitle">
-        Repasa reglas gramaticales clave, practica con flashcards interactivas en 3D y consulta el catálogo de verbos irregulares.
-      </p>
-      <div class="hero-actions">
-        <button class="btn btn-primary" id="btn-start-vocab">
-          <span>${icons.vocab()} Practicar Vocabulario</span>
-        </button>
-        <button class="btn btn-secondary" id="btn-start-quiz">
-          <span>${icons.quiz()} Desafío de Práctica</span>
-        </button>
+      <div class="hero-content">
+        <div class="hero-badge">${icons.sparkles()} Práctica diaria y repaso activo</div>
+        <h1 class="hero-title">Domina el inglés paso a paso</h1>
+        <p class="hero-subtitle">
+          Repasa reglas gramaticales clave, practica con flashcards interactivas en 3D y consulta el catálogo de verbos irregulares.
+        </p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" id="btn-start-vocab">
+            <span>${icons.vocab()} Practicar Vocabulario</span>
+          </button>
+          <button class="btn btn-secondary" id="btn-start-quiz">
+            <span>${icons.quiz()} Desafío de Práctica</span>
+          </button>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-img-frame">
+          <img src="/images/hero-student.jpg" alt="Estudiante practicando inglés en la app" class="hero-img" loading="eager" />
+          <div class="hero-floating-chip">
+            ${icons.headphones()}
+            <span>Audio nativo</span>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -225,6 +236,15 @@ export function renderVocabulary() {
                 </div>
 
                 <div class="card-center">
+                  ${card.image ? `
+                    <div class="card-thumb-wrapper">
+                      <img src="${card.image}" alt="${escapeHtml(card.en)}" class="card-thumb-img" loading="lazy" />
+                    </div>
+                  ` : `
+                    <div class="card-thumb-placeholder">
+                      <span class="card-placeholder-icon">${icons.vocab()}</span>
+                    </div>
+                  `}
                   <h2 class="card-word">${card.en}</h2>
                   <span class="card-phonetic">${card.phonetic}</span>
                 </div>
@@ -513,7 +533,9 @@ export function renderQuiz() {
 
     quizMainHtml = `
       <div class="quiz-result-card card-box">
-        <div class="result-trophy">${icons.trophy()}</div>
+        <div class="result-illustration-wrapper">
+          <img src="/images/quiz-trophy.jpg" alt="Logro y trofeo de celebración" class="result-celebration-img" />
+        </div>
         <h2 class="result-title">¡Desafío Completado!</h2>
         <div class="result-score-badge ${badgeClass}">
           <span class="score-number">${quizScore} / ${total}</span>
