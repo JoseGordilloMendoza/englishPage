@@ -125,7 +125,7 @@ export function renderDashboard() {
   // Listeners de botones dentro del dashboard
   document.getElementById('btn-start-vocab')?.addEventListener('click', () => navigateToView('vocabulario'));
   document.getElementById('btn-start-quiz')?.addEventListener('click', () => navigateToView('quiz'));
-  document.getElementById('btn-daily-audio')?.addEventListener('click', () => speakText(randomCard.en));
+  document.getElementById('btn-daily-audio')?.addEventListener('click', (e) => speakText(randomCard.en, 'en-US', e.currentTarget));
 
   // Tarjetas clickeables hacia sus secciones
   container.querySelectorAll('.stat-card').forEach(card => {
@@ -194,7 +194,7 @@ export function renderGrammar() {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
       const text = btn.getAttribute('data-speech');
-      if (text) speakText(text);
+      if (text) speakText(text, 'en-US', btn);
     });
   });
 }
@@ -343,7 +343,7 @@ export function renderVocabulary() {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
       const text = btn.getAttribute('data-speech');
-      if (text) speakText(text);
+      if (text) speakText(text, 'en-US', btn);
     });
   });
 
@@ -475,7 +475,7 @@ export function renderVerbs() {
   container.querySelectorAll('.btn-verb-audio').forEach(btn => {
     btn.addEventListener('click', () => {
       const text = btn.getAttribute('data-speech');
-      if (text) speakText(text);
+      if (text) speakText(text, 'en-US', btn);
     });
   });
 }
@@ -707,8 +707,9 @@ export function renderQuiz() {
 
     // Audio de la pregunta
     container.querySelector('.btn-quiz-speech')?.addEventListener('click', (e) => {
-      const text = e.currentTarget.getAttribute('data-speech');
-      if (text) speakText(text);
+      const btn = e.currentTarget;
+      const text = btn.getAttribute('data-speech');
+      if (text) speakText(text, 'en-US', btn);
     });
 
     // Botón siguiente pregunta

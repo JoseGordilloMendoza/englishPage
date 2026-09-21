@@ -1,29 +1,18 @@
 /**
  * EnglishPage - Speech Synthesis & Native Pronunciation Engine
- * Garantiza pronunciación 100% nativa en inglés eliminando acentos de voces
- * del sistema en otros idiomas mediante selección estricta y fallback de alta fidelidad.
+ * Garantiza pronunciación 100% nativa en inglés eliminando el bug de cancelación
+ * silenciosa de Chromium, desfreezando el hilo de audio y reteniendo el objeto en memoria.
  */
 
-let synth = null;
-let currentAudio = null;
-
-if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-  synth = window.speechSynthesis;
-  // Precargar lista de voces del navegador
-  if (synth.onvoiceschanged !== undefined) {
-    synth.addEventListener('voiceschanged', () => {
-      // Evento de recarga de voces completado
-    });
-  }
-}
+let activeUtterance = null; // Retención global contra el recolector de basura de V8 (Chromium Bug #338302)
 
 /**
- * Obtiene únicamente las voces instaladas que corresponden al idioma inglés.
+ * Obtiene las voces disponibles en inglés en el navegador.
  * @returns {SpeechSynthesisVoice[]}
  */
 function getEnglishVoices() {
-  if (!synth) return [];
-  const allVoices = synth.getVoices() || [];
+  if (!('speechSynthesis' in window)) return [];
+  const allVoices = window.speechSynthesis.getVoices() || [];
   return allVoices.filter(v => {
     const lang = (v.lang || '').toLowerCase();
     const name = (v.name || '').toLowerCase();
@@ -37,8 +26,8 @@ function getEnglishVoices() {
 }
 
 /**
- * Selecciona la voz en inglés de mayor calidad disponible en el sistema.
- * Prioriza voces "Natural", "Neural", "Online" o de motores reconocidos (Google, Apple, Microsoft).
+ * Selecciona la voz en inglés más confiable y nativa.
+ * Prioriza voces locales de alta compatibilidad (Zira, David, Jenny, Guy, Google US English).
  * @param {SpeechSynthesisVoice[]} englishVoices
  * @param {string} preferredLang
  * @returns {SpeechSynthesisVoice|null}
@@ -46,136 +35,118 @@ function getEnglishVoices() {
 function selectBestEnglishVoice(englishVoices, preferredLang = 'en-US') {
   if (!englishVoices || englishVoices.length === 0) return null;
 
-  // 1. Voces naturales / neurales / online
-  const naturalVoice = englishVoices.find(v => {
+  // 1. Voces locales de Windows altamente confiables y sin latencia de red
+  const localHighQuality = englishVoices.find(v => {
     const name = v.name.toLowerCase();
-    return (
-      (name.includes('natural') || name.includes('neural') || name.includes('online') || name.includes('google')) &&
-      v.lang.toLowerCase().startsWith('en')
-    );
+    return name.includes('zira') || name.includes('david') || name.includes('jenny') || name.includes('guy');
   });
-  if (naturalVoice) return naturalVoice;
+  if (localHighQuality) return localHighQuality;
 
-  // 2. Coincidencia exacta con el dialecto preferido (ej. en-US o en-GB)
-  const exactMatch = englishVoices.find(v => v.lang.toLowerCase() === preferredLang.toLowerCase());
-  if (exactMatch) return exactMatch;
+  // 2. Voces Google English de Chrome
+  const googleVoice = englishVoices.find(v => {
+    const name = v.name.toLowerCase();
+    return name.includes('google') && v.lang.toLowerCase().startsWith('en');
+  });
+  if (googleVoice) return googleVoice;
 
-  // 3. Voces nativas estándar reconocidas
+  // 3. Voces de Apple o estándar (Samantha, Daniel, Karen)
   const standardVoice = englishVoices.find(v => {
     const name = v.name.toLowerCase();
-    return (
-      name.includes('zira') ||
-      name.includes('david') ||
-      name.includes('jenny') ||
-      name.includes('guy') ||
-      name.includes('samantha') ||
-      name.includes('daniel') ||
-      name.includes('karen') ||
-      name.includes('george')
-    );
+    return name.includes('samantha') || name.includes('daniel') || name.includes('karen');
   });
   if (standardVoice) return standardVoice;
 
-  // 4. Cualquier voz en-US o en-GB
-  const usGbVoice = englishVoices.find(v => {
+  // 4. Coincidencia por dialecto (en-US o en-GB)
+  const langMatch = englishVoices.find(v => v.lang.toLowerCase() === preferredLang.toLowerCase());
+  if (langMatch) return langMatch;
+
+  const anyUsGb = englishVoices.find(v => {
     const l = v.lang.toLowerCase();
     return l.startsWith('en-us') || l.startsWith('en-gb');
   });
-  if (usGbVoice) return usGbVoice;
+  if (anyUsGb) return anyUsGb;
 
-  // 5. Primera voz en inglés disponible
   return englishVoices[0];
 }
 
 /**
- * Reproduce audio nativo mediante el servicio de pronunciación de alta fidelidad.
- * Utilizado cuando el sistema operativo no cuenta con voces en inglés instaladas.
- * @param {string} text
- * @param {string} lang
- */
-function playAudioFallback(text, lang = 'en-US') {
-  try {
-    if (currentAudio) {
-      currentAudio.pause();
-      currentAudio.currentTime = 0;
-      currentAudio = null;
-    }
-
-    const ttsLang = lang.toLowerCase().startsWith('en-gb') ? 'en-GB' : 'en-US';
-    const audioUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=${encodeURIComponent(ttsLang)}&q=${encodeURIComponent(text)}`;
-    
-    const audio = new Audio(audioUrl);
-    currentAudio = audio;
-    audio.playbackRate = 0.95;
-    
-    const playPromise = audio.play();
-    if (playPromise !== undefined) {
-      playPromise.catch(err => {
-        console.warn('Fallback de audio no pudo reproducirse:', err);
-      });
-    }
-  } catch (err) {
-    console.error('Error en servicio de pronunciación alternativa:', err);
-  }
-}
-
-/**
  * Pronuncia un texto con acento y fonética 100% en inglés nativo.
- * @param {string} text - Texto o frase a pronunciar.
- * @param {string} [lang='en-US'] - Código de idioma ('en-US' o 'en-GB').
+ * @param {string} text - Texto o frase a pronunciar en inglés.
+ * @param {string} [lang='en-US'] - Dialecto preferido ('en-US' o 'en-GB').
+ * @param {HTMLElement} [triggerBtn=null] - Botón opcional para animación visual de reproducción.
  */
-export function speakText(text, lang = 'en-US') {
+export function speakText(text, lang = 'en-US', triggerBtn = null) {
   if (!text) return;
+  if (!('speechSynthesis' in window)) {
+    console.warn('[Audio] Web Speech API no soportada en este navegador.');
+    return;
+  }
 
-  // Limpiar texto de paréntesis o anotaciones para pronunciar solo la frase en inglés
+  // Limpiar texto de paréntesis o anotaciones para pronunciar únicamente la frase en inglés
   const cleanText = text.replace(/\(.*?\)/g, '').replace(/[\/\\#]/g, '').trim();
   if (!cleanText) return;
 
-  // Detener audio previo de cualquier fuente
-  if (currentAudio) {
-    currentAudio.pause();
-    currentAudio.currentTime = 0;
-    currentAudio = null;
+  const synth = window.speechSynthesis;
+
+  // Feedback visual en el botón pulsado
+  if (triggerBtn) {
+    triggerBtn.classList.add('playing-audio');
   }
 
-  if (synth) {
-    synth.cancel();
+  // Despertar el hilo de síntesis de voz si Chromium lo suspendió
+  if (synth.paused) {
+    synth.resume();
   }
 
-  // Buscar voces en inglés disponibles en el navegador en este instante
-  const englishVoices = getEnglishVoices();
+  // Cancelar audio en curso antes de lanzar la nueva frase
+  synth.cancel();
 
-  // Si el navegador NO tiene ninguna voz en inglés instalada (común en PCs con Windows en español puro),
-  // recurrir directamente al reproductor de audio nativo para no usar la voz en español.
-  if (!synth || englishVoices.length === 0) {
-    playAudioFallback(cleanText, lang);
-    return;
-  }
+  // Esperar 30ms para que la cancelación se procese en Chromium y no mate a la nueva locución
+  setTimeout(() => {
+    try {
+      const englishVoices = getEnglishVoices();
+      const selectedVoice = selectBestEnglishVoice(englishVoices, lang);
 
-  const selectedVoice = selectBestEnglishVoice(englishVoices, lang);
+      const utterance = new SpeechSynthesisUtterance(cleanText);
+      
+      // Retener referencia en variable global para que el Garbage Collector de V8 no lo elimine
+      activeUtterance = utterance;
+      window._activeSpeechUtterance = utterance;
 
-  // Si por alguna razón la voz seleccionada no es en inglés, usar fallback
-  if (!selectedVoice || !selectedVoice.lang.toLowerCase().startsWith('en')) {
-    playAudioFallback(cleanText, lang);
-    return;
-  }
+      if (selectedVoice) {
+        utterance.voice = selectedVoice;
+        utterance.lang = selectedVoice.lang || lang;
+      } else {
+        utterance.lang = lang;
+      }
 
-  try {
-    const utterance = new SpeechSynthesisUtterance(cleanText);
-    utterance.voice = selectedVoice;
-    utterance.lang = selectedVoice.lang || lang;
-    utterance.rate = 0.88; // Velocidad óptima de estudio y dicción clara
-    utterance.pitch = 1.0;
+      utterance.volume = 1.0;
+      utterance.rate = 0.88; // Velocidad óptima para aprendizaje auditivo
+      utterance.pitch = 1.0;
 
-    // En caso de que Web Speech falle en emitir sonido, disparar el fallback
-    utterance.onerror = (e) => {
-      console.warn('Web Speech falló, usando audio nativo:', e);
-      playAudioFallback(cleanText, lang);
-    };
+      utterance.onstart = () => {
+        if (triggerBtn) triggerBtn.classList.add('playing-audio');
+      };
 
-    synth.speak(utterance);
-  } catch (err) {
-    console.warn('Error al iniciar Web Speech, usando fallback:', err);
-    playAudioFallback(cleanText, lang);
-  }
+      utterance.onend = () => {
+        if (triggerBtn) triggerBtn.classList.remove('playing-audio');
+        activeUtterance = null;
+        window._activeSpeechUtterance = null;
+      };
+
+      utterance.onerror = (e) => {
+        console.warn('[Audio] Error en SpeechSynthesisUtterance:', e);
+        if (triggerBtn) triggerBtn.classList.remove('playing-audio');
+        activeUtterance = null;
+        window._activeSpeechUtterance = null;
+      };
+
+      synth.resume();
+      synth.speak(utterance);
+    } catch (err) {
+      console.error('[Audio] Error al reproducir audio:', err);
+      if (triggerBtn) triggerBtn.classList.remove('playing-audio');
+      activeUtterance = null;
+    }
+  }, 30);
 }

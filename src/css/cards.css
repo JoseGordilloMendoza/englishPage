@@ -1254,3 +1254,18 @@
   line-height: 1.5;
 }
 
+/* Estado visual interactivo al reproducir audio */
+.btn-icon.playing-audio {
+  color: var(--color-primary) !important;
+  background-color: var(--color-primary-light) !important;
+  border-color: var(--color-primary) !important;
+  transform: scale(1.15);
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.25);
+  animation: pulseAudio 0.8s infinite alternate ease-in-out;
+}
+
+@keyframes pulseAudio {
+  0% { transform: scale(1.1); box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2); }
+  100% { transform: scale(1.2); box-shadow: 0 0 0 6px rgba(79, 70, 229, 0.35); }
+}
+
