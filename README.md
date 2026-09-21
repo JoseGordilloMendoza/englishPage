@@ -92,6 +92,7 @@ englishPage/
 
 ## Informacion del Autor
 
-- **Estudiante**: Jose Gordillo Mendoza
+- **Integrante 1**: Jose Gordillo Mendoza
+- **Integrante 2**: Jorge Escobedo Ocaña
 - **Curso**: Plataformas Emergentes
 - **Ano**: 2026
