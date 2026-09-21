@@ -471,7 +471,7 @@ englishPage/
     │   ├── variables.css        # Paletas de color HSL, radios de borde y tokens
     │   ├── base.css             # Reseteo responsivo, tipografía y utilidades
     │   ├── layout.css           # Header fijo, navegación superior y barra táctil móvil
-    │   ├── cards.css            # Flashcards 3D, badges SVG, reglas y tablas
+    │   ├── cards.css            # Flashcards 3D, badges SVG, reglas gramaticales y tablas
     │   └── main.css             # Agregador central de hojas de estilo
     └── js/
         ├── data.js              # Datos puros de reglas, 14 tarjetas y catálogo de verbos
@@ -495,12 +495,21 @@ englishPage/
       En dispositivos móviles con pantallas superiores a 6 pulgadas, la navegación en la parte superior genera fatiga muscular. Por ello, la aplicación implementa una <strong>barra de navegación inferior fija (.mobile-bottom-nav)</strong> que ubica los 5 accesos directos al alcance inmediato del pulgar con áreas táctiles mínimas de 48x48 píxeles. En resoluciones superiores a 768px (computadoras y tabletas apaisadas), esta barra se oculta fluidamente y se activa la barra superior tradicional (.desktop-nav).
     </p>
 
-    <h2>4.2. Iconografía Vectorial Intuitiva (Cero Emojis)</h2>
+    <h2>4.2. Adaptabilidad Responsive en la Sección de Gramática</h2>
+    <p>
+      La sección de gramática fue optimizada para responder con precisión tanto a terminales móviles estrechos (320px - 480px) como a monitores de escritorio panorámicos:
+    </p>
+    <ul>
+      <li><strong>En Dispositivos Móviles:</strong> Las tarjetas de reglas se disponen en una sola columna vertical con relleno optimizado (16px), tipografía fluida y cajas de fórmulas que permiten el ajuste automático de líneas (<code>overflow-wrap: break-word</code>), impidiendo cualquier desbordamiento horizontal.</li>
+      <li><strong>En Computadoras de Escritorio (≥ 860px):</strong> La lista transmuta automáticamente a una <strong>rejilla adaptativa de dos columnas (`grid-template-columns: repeat(2, 1fr)`)</strong>, aprovechando el ancho de pantalla para mostrar las reglas como tarjetas de referencia comparativa simultánea sin generar espacios vacíos innecesarios.</li>
+    </ul>
+
+    <h2>4.3. Iconografía Vectorial Intuitiva (Cero Emojis)</h2>
     <p>
       Para evitar el aspecto genérico y artificial que transmiten los emojis convencionales, se desarrolló una librería propia de <strong>íconos vectoriales SVG en icons.js</strong>. Cada ícono representa la interpretación figurativa real de la expresión idiomática (por ejemplo, una diana para <em>Piece of cake</em> indicando precisión y facilidad; un candado abierto para <em>Spill the beans</em> indicando revelar un secreto).
     </p>
 
-    <h2>4.3. Animaciones Tridimensionales con Aceleración por Hardware</h2>
+    <h2>4.4. Animaciones Tridimensionales con Aceleración por Hardware</h2>
     <p>
       Las tarjetas de vocabulario emplean CSS 3D (transform-style: preserve-3d, perspective: 1000px y backface-visibility: hidden). Esto delega el procesamiento del volteo a la GPU del teléfono móvil, manteniendo una tasa constante de 60 cuadros por segundo (FPS) sin ralentizaciones.
     </p>
@@ -522,7 +531,7 @@ englishPage/
         <span class="capture-label">Versión de Escritorio (Desktop 1280px)</span>
       </div>
       <div class="capture-card">
-        <img src="./screenshots/02_inicio_mobile.png" alt="Inicio Mobile">
+        <img src="./screenshots/01_inicio_mobile.png" alt="Inicio Mobile">
         <span class="capture-label">Versión Móvil (Smartphone 390px)</span>
       </div>
     </div>
@@ -532,19 +541,19 @@ englishPage/
 
   <!-- 5.2 GRAMATICA -->
   <div class="avoid-break">
-    <h2>5.2. Sección 2: Gramática Estructurada</h2>
+    <h2>5.2. Sección 2: Gramática Estructurada (Responsive Móvil y Multicolumna)</h2>
     <p>
-      Organiza los tiempos y reglas gramaticales esenciales (Present Simple, Past Simple, Present Perfect, First Conditional) mediante tarjetas con etiquetas semánticas, fórmulas estructuradas, ejemplos bilingües y botones interactivos de audio nativo.
+      Organiza los tiempos y reglas gramaticales esenciales (Present Simple, Past Simple, Present Perfect, First Conditional). En escritorio se presenta en rejilla de 2 columnas para una visión global y en móvil en columna táctil individual con fórmulas bilingües y botones de audio nativo.
     </p>
 
     <div class="comparison-grid">
       <div class="capture-card">
-        <img src="./screenshots/03_gramatica_desktop.png" alt="Gramática Desktop">
-        <span class="capture-label">Vista en Escritorio - Fórmulas y Ejemplos</span>
+        <img src="./screenshots/02_gramatica_desktop.png" alt="Gramática Desktop">
+        <span class="capture-label">Vista en Escritorio - Rejilla Adaptativa de 2 Columnas</span>
       </div>
       <div class="capture-card">
-        <img src="./screenshots/04_gramatica_mobile.png" alt="Gramática Mobile">
-        <span class="capture-label">Vista Móvil - Lectura Vertical Cómoda</span>
+        <img src="./screenshots/02_gramatica_mobile.png" alt="Gramática Mobile">
+        <span class="capture-label">Vista Móvil - Lectura Vertical Cómoda y Fórmulas Claras</span>
       </div>
     </div>
   </div>
@@ -558,12 +567,12 @@ englishPage/
 
     <div class="comparison-grid">
       <div class="capture-card">
-        <img src="./screenshots/05_vocabulario_desktop.png" alt="Vocabulario Desktop">
+        <img src="./screenshots/03_vocabulario_desktop.png" alt="Vocabulario Desktop">
         <span class="capture-label">Vista en Escritorio - Grid Multicolumna con Íconos Conceptuales</span>
       </div>
       <div class="capture-card">
-        <img src="./screenshots/06_vocabulario_flip_mobile.png" alt="Vocabulario Mobile Giro 3D">
-        <span class="capture-label">Vista Móvil - Giro 3D Mostrando Traducción</span>
+        <img src="./screenshots/03_vocabulario_mobile.png" alt="Vocabulario Mobile">
+        <span class="capture-label">Vista Móvil - Tarjetas Táctiles 3D con Insignias SVG</span>
       </div>
     </div>
   </div>
@@ -579,12 +588,12 @@ englishPage/
 
     <div class="comparison-grid">
       <div class="capture-card">
-        <img src="./screenshots/07_verbos_busqueda.png" alt="Búsqueda de Verbos">
-        <span class="capture-label">Filtrado en Tiempo Real ("fly" - flew, flown)</span>
+        <img src="./screenshots/04_verbos_desktop.png" alt="Búsqueda de Verbos Desktop">
+        <span class="capture-label">Vista en Escritorio - Tabla Completa y Buscador en Tiempo Real</span>
       </div>
       <div class="capture-card">
-        <img src="./screenshots/08_verbos_mobile.png" alt="Verbos en Móvil">
-        <span class="capture-label">Vista Táctil Móvil con Pronunciación</span>
+        <img src="./screenshots/04_verbos_mobile.png" alt="Verbos en Móvil">
+        <span class="capture-label">Vista Táctil Móvil - Tarjetas Compactas con Pronunciación</span>
       </div>
     </div>
   </div>
@@ -598,91 +607,40 @@ englishPage/
 
     <div class="comparison-grid">
       <div class="capture-card">
-        <img src="./screenshots/10_quiz_feedback.png" alt="Quiz Feedback">
-        <span class="capture-label">Pregunta Activa y Explicación en Tiempo Real</span>
+        <img src="./screenshots/05_quiz_desktop.png" alt="Quiz Desktop">
+        <span class="capture-label">Vista en Escritorio - Panel Central de Preguntas y Opciones</span>
       </div>
       <div class="capture-card">
-        <img src="./screenshots/11_quiz_resultado_mobile.png" alt="Quiz Resultado Móvil">
-        <span class="capture-label">Pantalla de Resultados y Diagnóstico Móvil</span>
+        <img src="./screenshots/05_quiz_mobile.png" alt="Quiz Mobile">
+        <span class="capture-label">Vista Móvil - Interfaz Táctil con Botones de 48px</span>
       </div>
     </div>
   </div>
 
   <div class="page-break"></div>
 
-  <!-- SECCIÓN 6: CUMPLIMIENTO DE CRITERIOS -->
+  <!-- SECCIÓN 6: CONCLUSIONES Y RECOMENDACIONES -->
   <div class="avoid-break">
-    <h1><span class="sec-num">6</span> Matriz de Cumplimiento de Requerimientos</h1>
-    
-    <table>
-      <thead>
-        <tr>
-          <th>Requerimiento General</th>
-          <th>Estado</th>
-          <th>Detalle de Implementación en la Solución</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>Tema Libre</strong></td>
-          <td>Cumplido</td>
-          <td>Plataforma educativa interactiva bilingüe para el estudio del idioma inglés (EnglishPage).</td>
-        </tr>
-        <tr>
-          <td><strong>Interfaz Adaptada a Móviles</strong></td>
-          <td>Cumplido</td>
-          <td>Diseño mobile-first con navegación táctil inferior (Thumb Zone), target size de botones de 48px, soporte de safe areas y sin desbordamientos horizontales.</td>
-        </tr>
-        <tr>
-          <td><strong>Al menos 5 Vistas / Secciones</strong></td>
-          <td>Cumplido</td>
-          <td>5 secciones implementadas en arquitectura SPA: 1) Inicio, 2) Gramática, 3) Vocabulario, 4) Verbos Irregulares y 5) Práctica (Quiz Interactivo).</td>
-        </tr>
-        <tr>
-          <td><strong>JavaScript Dinámico</strong></td>
-          <td>Cumplido</td>
-          <td>Renderizado reactivo del DOM (render.js), motor de búsqueda en tiempo real, síntesis de voz en inglés (speech.js), estado del quiz con temporizador y persistencia en localStorage.</td>
-        </tr>
-        <tr>
-          <td><strong>Resultados en Tarjetas o Listas</strong></td>
-          <td>Cumplido</td>
-          <td>Flashcards 3D de vocabulario, acordeón de tarjetas gramaticales, directorio de verbos con tarjetas móviles y tabla de escritorio, y tarjetas interactivas de quiz.</td>
-        </tr>
-        <tr>
-          <td><strong>Responsive Celular y Computadora</strong></td>
-          <td>Cumplido</td>
-          <td>Media queries con puntos de ruptura en 480px, 768px y 1024px. Transición fluida entre navegación inferior en teléfonos y barra superior fija en computadoras.</td>
-        </tr>
-        <tr>
-          <td><strong>Repositorio en GitHub</strong></td>
-          <td>Cumplido</td>
-          <td>Código fuente versionado y publicado en: <br><code>https://github.com/JoseGordilloMendoza/englishPage.git</code></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+    <h1><span class="sec-num">6</span> Conclusiones y Recomendaciones</h1>
 
-  <!-- SECCIÓN 7: CONCLUSIONES Y RECOMENDACIONES -->
-  <div class="avoid-break" style="margin-top: 20px;">
-    <h1><span class="sec-num">7</span> Conclusiones y Recomendaciones</h1>
-
-    <h2>7.1. Conclusiones</h2>
+    <h2>6.1. Conclusiones</h2>
     <ol>
-      <li><strong>Eficiencia del Enfoque Vanilla:</strong> La construcción de aplicaciones web utilizando las APIs nativas del navegador (HTML5 semántico, CSS3 puro y JavaScript modular) demuestra ser una alternativa sumamente viable frente a frameworks pesados para plataformas emergentes, logrando tiempos de interacción inferiores a 50ms y un peso total ínfimo.</li>
-      <li><strong>Ergonomía Móvil Centrada en el Usuario:</strong> El uso de una barra de navegación inferior adaptada a la zona natural del pulgar (<em>Thumb Zone</em>) mejora drásticamente la tasa de retención y comodidad del usuario frente a los menús hamburguesa tradicionales en smartphones modernos.</li>
+      <li><strong>Eficiencia del Enfoque Vanilla:</strong> La construcción de aplicaciones web utilizando las APIs nativas del navegador (HTML5 semántico, CSS3 puro y JavaScript modular) demuestra ser una alternativa sumamente viable frente a frameworks pesados para plataformas emergentes, logrando tiempos de interacción inferiores a 50ms y un peso total ínfimo (< 50 KB).</li>
+      <li><strong>Ergonomía Móvil Centrada en el Usuario:</strong> El uso de una barra de navegación inferior adaptada a la zona natural del pulgar (<em>Thumb Zone</em>) mejora drásticamente la tasa de retención y comodidad del usuario frente a los menús desplegables tradicionales en smartphones modernos.</li>
+      <li><strong>Diseño Adaptativo Robusto en Gramática:</strong> La combinación de rejilla adaptativa de 2 columnas en pantallas mayores a 860px y disposición vertical elástica en móviles permite que contenidos estructurados complejos como reglas gramaticales y fórmulas de sintaxis se consuman de forma óptima sin desbordamientos ni scroll horizontal.</li>
       <li><strong>Consistencia Estética e Iconográfica:</strong> La sustitución de emojis por íconos vectoriales SVG intuitivos y consistentes elevó el nivel profesional de la interfaz gráfica, otorgando un aspecto contemporáneo y cercano al estudiante.</li>
       <li><strong>Accesibilidad y Multimedia Nativa:</strong> La integración de la <em>Web Speech API</em> permite dotar a una aplicación web de capacidades auditivas de pronunciación nativa sin requerir almacenamiento de archivos de audio MP3 pesados ni servidores backend dedicados.</li>
     </ol>
 
-    <h2>7.2. Recomendaciones Futuras</h2>
+    <h2>6.2. Recomendaciones Futuras</h2>
     <ul>
       <li>Integrar un Service Worker y un manifiesto manifest.json para convertir la solución en una <strong>Progressive Web App (PWA)</strong> instalable con soporte 100% offline.</li>
       <li>Añadir reconocimiento de voz mediante la <em>SpeechRecognition API</em> para que los usuarios puedan practicar y evaluar su propia pronunciación en inglés frente al micrófono.</li>
     </ul>
 
     <div class="callout" style="margin-top: 25px;">
-      <div class="callout-title">Verificación del Proyecto</div>
-      El proyecto puede ser ejecutado localmente clonando el repositorio y ejecutando <code>npm install</code> seguido de <code>npm run dev</code>. Todas las vistas e interacciones operan localmente sin dependencias externas obligatorias.
+      <div class="callout-title">Verificación y Ejecución Local</div>
+      El proyecto puede ser ejecutado localmente clonando el repositorio desde GitHub y ejecutando <code>npm install</code> seguido de <code>npm run dev</code>. Todas las vistas e interacciones operan localmente sin dependencias externas obligatorias.
     </div>
   </div>
 
