@@ -1,0 +1,9 @@
+/**
+ * EnglishPage - Master Stylesheet
+ * Centraliza la importación de variables, base, layout y componentes.
+ */
+
+@import './variables.css';
+@import './base.css';
+@import './layout.css';
+@import './cards.css';

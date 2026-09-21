@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#4f46e5" />
+  <meta name="description" content="EnglishPage - Aplicación web interactiva móvil y responsive para el repaso de vocabulario, verbos irregulares y gramática en inglés con flashcards 3D." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  
+  <title>EnglishPage | Aplicación Interactiva de Repaso</title>
+
+  <!-- Favicon SVG en base64 para evitar peticiones 404 -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🇬🇧</text></svg>">
+
+  <!-- Estilos del Sistema -->
+  <link rel="stylesheet" href="/src/css/main.css" />
+</head>
+<body>
+
+  <!-- Encabezado Fijo Superior -->
+  <header class="app-header">
+    <div class="header-container">
+      <!-- Logotipo y Nombre -->
+      <a href="#inicio" class="brand" data-nav-link data-target="inicio" id="brand-logo" aria-label="Ir a Inicio de EnglishPage">
+        <div class="brand-icon">🇬🇧</div>
+        <div class="brand-name">English<span>Page</span></div>
+      </a>
+
+      <!-- Navegación para Pantallas de Computadora -->
+      <nav class="desktop-nav" aria-label="Navegación principal de escritorio">
+        <a href="#inicio" class="nav-link active" data-nav-link data-target="inicio" id="nav-desk-inicio">
+          <span>🏠 Inicio</span>
+        </a>
+        <a href="#gramatica" class="nav-link" data-nav-link data-target="gramatica" id="nav-desk-gramatica">
+          <span>📖 Gramática</span>
+        </a>
+        <a href="#vocabulario" class="nav-link" data-nav-link data-target="vocabulario" id="nav-desk-vocabulario">
+          <span>🃏 Vocabulario</span>
+        </a>
+        <a href="#verbos" class="nav-link" data-nav-link data-target="verbos" id="nav-desk-verbos">
+          <span>⚡ Verbos</span>
+        </a>
+        <a href="#acerca-de" class="nav-link" data-nav-link data-target="acerca-de" id="nav-desk-acerca">
+          <span>ℹ️ Acerca de</span>
+        </a>
+      </nav>
+
+      <!-- Botón de Menú Hamburguesa para Móvil -->
+      <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú de navegación" aria-expanded="false">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Overlay para oscurecer el fondo cuando se abre el Drawer móvil -->
+  <div class="drawer-overlay" id="drawer-overlay" aria-hidden="true"></div>
+
+  <!-- Drawer / Menú Lateral Desplegable Móvil -->
+  <aside class="nav-drawer" id="nav-drawer" aria-label="Menú lateral móvil">
+    <div class="drawer-title">Menú de Navegación</div>
+    <ul class="drawer-nav-list">
+      <li>
+        <a href="#inicio" class="drawer-link active" data-nav-link data-target="inicio" id="nav-drawer-inicio">
+          <span class="drawer-link-icon">🏠</span>
+          <span>Inicio</span>
+        </a>
+      </li>
+      <li>
+        <a href="#gramatica" class="drawer-link" data-nav-link data-target="gramatica" id="nav-drawer-gramatica">
+          <span class="drawer-link-icon">📖</span>
+          <span>Gramática</span>
+        </a>
+      </li>
+      <li>
+        <a href="#vocabulario" class="drawer-link" data-nav-link data-target="vocabulario" id="nav-drawer-vocabulario">
+          <span class="drawer-link-icon">🃏</span>
+          <span>Vocabulario (3D)</span>
+        </a>
+      </li>
+      <li>
+        <a href="#verbos" class="drawer-link" data-nav-link data-target="verbos" id="nav-drawer-verbos">
+          <span class="drawer-link-icon">⚡</span>
+          <span>Verbos Irregulares</span>
+        </a>
+      </li>
+      <li>
+        <a href="#acerca-de" class="drawer-link" data-nav-link data-target="acerca-de" id="nav-drawer-acerca">
+          <span class="drawer-link-icon">ℹ️</span>
+          <span>Acerca de</span>
+        </a>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- Contenedor Principal de Vistas SPA (Solo una activa a la vez) -->
+  <main class="main-container" id="main-content">
+    
+    <!-- 1. Vista: Inicio (#inicio) -->
+    <section id="inicio" class="view active" aria-labelledby="brand-logo">
+      <div id="inicio-content"></div>
+    </section>
+
+    <!-- 2. Vista: Gramática (#gramatica) -->
+    <section id="gramatica" class="view" aria-label="Sección de Gramática">
+      <div id="grammar-content"></div>
+    </section>
+
+    <!-- 3. Vista: Vocabulario (#vocabulario) -->
+    <section id="vocabulario" class="view" aria-label="Sección de Vocabulario y Flashcards">
+      <div id="vocab-content"></div>
+    </section>
+
+    <!-- 4. Vista: Verbos (#verbos) -->
+    <section id="verbos" class="view" aria-label="Sección de Verbos Irregulares">
+      <div id="verbs-content"></div>
+    </section>
+
+    <!-- 5. Vista: Acerca de (#acerca-de) -->
+    <section id="acerca-de" class="view" aria-label="Sección Acerca del Proyecto">
+      <div id="about-content"></div>
+    </section>
+
+  </main>
+
+  <!-- Barra de Navegación Inferior para Móviles (Thumb-friendly navigation) -->
+  <nav class="mobile-bottom-nav" aria-label="Navegación inferior móvil">
+    <a href="#inicio" class="bottom-nav-item active" data-nav-link data-target="inicio" id="bnav-inicio">
+      <span class="bottom-icon">🏠</span>
+      <span>Inicio</span>
+    </a>
+    <a href="#gramatica" class="bottom-nav-item" data-nav-link data-target="gramatica" id="bnav-gramatica">
+      <span class="bottom-icon">📖</span>
+      <span>Gramática</span>
+    </a>
+    <a href="#vocabulario" class="bottom-nav-item" data-nav-link data-target="vocabulario" id="bnav-vocabulario">
+      <span class="bottom-icon">🃏</span>
+      <span>Cards 3D</span>
+    </a>
+    <a href="#verbos" class="bottom-nav-item" data-nav-link data-target="verbos" id="bnav-verbos">
+      <span class="bottom-icon">⚡</span>
+      <span>Verbos</span>
+    </a>
+    <a href="#acerca-de" class="bottom-nav-item" data-nav-link data-target="acerca-de" id="bnav-acerca">
+      <span class="bottom-icon">ℹ️</span>
+      <span>Info</span>
+    </a>
+  </nav>
+
+  <!-- Pie de Página (visible en pantallas grandes) -->
+  <footer class="app-footer">
+    <div class="footer-content">
+      <div>
+        <strong>EnglishPage</strong> — Aplicación Web Móvil e Interactiva de Repaso
+      </div>
+      <div>
+        Desarrollado con HTML5, CSS3 puro y JavaScript ES6+ Vanilla
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script Principal de la Aplicación -->
+  <script type="module" src="/src/js/main.js"></script>
+</body>
+</html>
